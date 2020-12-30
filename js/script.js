@@ -17,14 +17,14 @@ MusicDB.prototype.assignAlbumId = function() {
 MusicDB.prototype.addArtist = function(artist) {
   artist.artistId = this.assignArtistId();
   this.artists[artist.artistId] = artist;
-  // this.artists[artist[artist.id]]
-  // this.artists[artist] = artist
 }
 
-// MusicDB.prototype.addAlbum = function(album) {
-//   album.albumId = this.assignAlbumId();
-//   this.artists[this.findArtistByName(artist)]artist.artistId.artistAlbums.albumId = album;
-// }
+MusicDB.prototype.addAlbum = function(album) {
+  album.albumId = this.assignAlbumId();
+  let albumArtistID = newDb.findArtistByName(album.albumArtist);
+  this.artists[albumArtistID].artistAlbums[album.albumId] = album;
+  return this.artists[albumArtistID].artistAlbums[album.albumId];
+}
 
 MusicDB.prototype.findArtist = function(id) {
   if (this.artists[id] != undefined ) {
@@ -32,8 +32,6 @@ MusicDB.prototype.findArtist = function(id) {
   }
   return false;
 }
-
-//WHERE I LEFT OFF - Im trying to find by name.  Finding the Artist name in the object
 
 MusicDB.prototype.findArtistByName = function(artistName) {
   for (i = 1; i <= this.artistId; i++) {
@@ -57,6 +55,9 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
   this.albumType = albumType;
 }
 
+//next need to find album by ID and also by Album name
+//Also, probably would be better off making two DB objects instead of nesting the albums in the artist.  Duh!
+
 let newDb = new MusicDB();
 let artist = new Artist("REM", "Alternative");
 let artist2 = new Artist("The Cure", "Alternative");
@@ -66,11 +67,31 @@ newDb.addArtist(artist);
 newDb.addArtist(artist2);
 newDb.addArtist(artist3);
 newDb.addArtist(artist4);
-let album = new Album("REM","Out of Time", 1991, "Alternative", "Studio");
-album;
+let album = new Album("REM", "Out of Time", 1991, "Alternative", "Studio");
+let album2 = new Album("REM", "Out Eponymous", 1988, "Alternative", "Compilation");
+let album3 = new Album("The Cure", "Seventeen Seconds", 1980, "Alternative", "Studio");
+let album4 = new Album("The Cure", "Concert", 1984, "Alternative", "Live");
+let album5 = new Album("The Cure", "The Walk", 1983, "Alternative", "EP");
+let album6 = new Album("The Damned", "The Best of the Damned", 1981, "Punk", "Compilation");
+let album7 = new Album("The Damned", "Live", 1990, "Punk", "Live");
+let album8 = new Album("Tool", "Undertow", 1993, "NuMetal", "Studio");
+newDb.addAlbum(album);
+newDb.addAlbum(album2);
+newDb.addAlbum(album3);
+newDb.addAlbum(album4);
+newDb.addAlbum(album5);
+newDb.addAlbum(album6);
+newDb.addAlbum(album7);
+newDb.addAlbum(album8);
+newDb.artists[1].artistAlbums;
+newDb.artists[2].artistAlbums;
+newDb.artists[3].artistAlbums;
+newDb.artists[4].artistAlbums;
+
+
 // newDb;
 // newDb.findArtist(3);
-newDb.findArtistByName("The Cure");
+// newDb.findArtistByName("The Cure");
 
 
 // Artist.prototype.addAlbum = function(album) {
