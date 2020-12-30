@@ -2,6 +2,7 @@ function MusicDB() {
   this.artists = {};
   this.artistId = 0;
   this.albumId = 0;
+  this.albums = {};
 }
 
 MusicDB.prototype.assignArtistId = function() {
@@ -21,9 +22,8 @@ MusicDB.prototype.addArtist = function(artist) {
 
 MusicDB.prototype.addAlbum = function(album) {
   album.albumId = this.assignAlbumId();
-  let albumArtistID = newDb.findArtistByName(album.albumArtist);
-  this.artists[albumArtistID].artistAlbums[album.albumId] = album;
-  return this.artists[albumArtistID].artistAlbums[album.albumId];
+  album.artistID = newDb.findArtistByName(album.albumArtist);
+  this.albums[album.albumId] = album;
 }
 
 MusicDB.prototype.findArtist = function(id) {
@@ -44,7 +44,6 @@ MusicDB.prototype.findArtistByName = function(artistName) {
 function Artist(artist, artistGenre) {
   this.artist = artist;
   this.artistGenre = artistGenre;
-  this.artistAlbums = {};
 }
 
 function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
@@ -83,54 +82,6 @@ newDb.addAlbum(album5);
 newDb.addAlbum(album6);
 newDb.addAlbum(album7);
 newDb.addAlbum(album8);
-newDb.artists[1].artistAlbums;
-newDb.artists[2].artistAlbums;
-newDb.artists[3].artistAlbums;
-newDb.artists[4].artistAlbums;
+newDb.albums;
 
-
-// newDb;
-// newDb.findArtist(3);
-// newDb.findArtistByName("The Cure");
-
-
-// Artist.prototype.addAlbum = function(album) {
-//   this.artists[this.artist.album] = album;
-// }
-
-// function Album(artist, album, albumYear, albumType) {
-//   this.artist = artist;
-//   this.album = album;
-//   this.albumYear = albumYear;
-//   this.albumType = albumType;
-// }
-
-///working above
-
-
-
-MusicDB.prototype.assignAlbumId = function() {
-  this.albumId += 1;
-  return this.albumId;
-}
-
-let db1 = new MusicDB()
-this.addArtist(REM);
-db1;
-
-
-// ///I think I need to find the artist ID first, then assign albums.
-
-// MusicDB.prototype.addAlbum = function(artist, artistAlbum, albumYear, albumType) {
-//   artistAlbum.id = this.assignAlbumId();
-//   this.artists.artist.artistAlbum = artistAlbum;
-//   this.artists.artist.artistAlbum.albumYear = albumYear;
-//   this.artists.artist.artistAlbum.albumType = albumType;
-// }
-
-
-
-// $(document).ready(function() {
-  
-// })
 
