@@ -22,7 +22,7 @@ MusicDB.prototype.addArtist = function(artist) {
 
 MusicDB.prototype.addAlbum = function(album) {
   album.albumId = this.assignAlbumId();
-  album.artistID = newDb.findArtistByName(album.albumArtist);
+  album.artistId = newDb.findArtistByName(album.albumArtist);
   this.albums[album.albumId] = album;
 }
 
@@ -41,6 +41,23 @@ MusicDB.prototype.findArtistByName = function(artistName) {
   };
 };
 
+MusicDB.prototype.findAlbumList = function(artistId) {
+  let albumList = [];
+  for (i = 1; i <= this.albumId; i++) {
+    if (this.albums[i].artistId === artistId) {
+      albumList.push(this.albums[i]);
+    };
+  };
+  return albumList;
+};
+
+MusicDB.prototype.findAlbumListByName = function(artistName) {
+  let artId = newDb.findArtistByName(artistName);
+  let albumList = newDb.findAlbumList(artId);
+  return albumList;
+};
+
+
 function Artist(artist, artistGenre) {
   this.artist = artist;
   this.artistGenre = artistGenre;
@@ -54,8 +71,7 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
   this.albumType = albumType;
 }
 
-//next need to find album by ID and also by Album name
-//Also, probably would be better off making two DB objects instead of nesting the albums in the artist.  Duh!
+//next list albums by artist.
 
 let newDb = new MusicDB();
 let artist = new Artist("REM", "Alternative");
@@ -82,6 +98,6 @@ newDb.addAlbum(album5);
 newDb.addAlbum(album6);
 newDb.addAlbum(album7);
 newDb.addAlbum(album8);
-newDb.albums;
+newDb.findAlbumListByName("The Cure");
 
 
