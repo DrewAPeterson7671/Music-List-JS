@@ -57,6 +57,13 @@ MusicDB.prototype.findAlbumListByName = function(artistName) {
   return albumList;
 };
 
+MusicDB.prototype.deleteArtist = function(id) {
+  if (this.artists[id] === undefined) {
+    return false;
+  }
+  delete this.artists[id];
+  return true;
+}
 
 function Artist(artist, artistGenre) {
   this.artist = artist;
@@ -69,20 +76,45 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
   this.albumYear = albumYear;
   this.albumGenre = albumGenre;
   this.albumType = albumType;
+  this.albumRating = "";
 }
 
-//next list albums by artist.
+function displayArtistDetails(artistsToDisplay) {
+  let artistList = $("ul#artists");
+  let htmlForArtists = "";
+  Object.keys(artistsToDisplay.artists).forEach(function(key) {
+    const artist = artistsToDisplay.findArtist(key);
+    console.log(key);
+    console.log(artist.artist);
+    htmlForArtists += "<li id=" + artist.artistId + ">" + artist.artist + "</li>";
+  });
+  artistList.html(htmlForArtists);
+}
 
 let newDb = new MusicDB();
-let artist = new Artist("REM", "Alternative");
+
+$(document).ready(function() {
+  displayArtistDetails(newDb);
+  $("form#new-artist").submit(function(event) {
+    event.preventDefault();
+    let inputArtistName = $("input#new-artist-name").val();
+    let inputArtistGenre = $("input#new-artist-genre").val();
+    let newArtist = new Artist(inputArtistName, inputArtistGenre);
+    newDb.addArtist(newArtist);
+    displayArtistDetails(newDb);
+  })  
+})
+
+
+let artist1 = new Artist("REM", "Alternative");
 let artist2 = new Artist("The Cure", "Alternative");
 let artist3 = new Artist("The Damned", "Punk");
 let artist4 = new Artist("Tool", "NuMetal");
-newDb.addArtist(artist);
+newDb.addArtist(artist1);
 newDb.addArtist(artist2);
 newDb.addArtist(artist3);
 newDb.addArtist(artist4);
-let album = new Album("REM", "Out of Time", 1991, "Alternative", "Studio");
+let album1 = new Album("REM", "Out of Time", 1991, "Alternative", "Studio");
 let album2 = new Album("REM", "Out Eponymous", 1988, "Alternative", "Compilation");
 let album3 = new Album("The Cure", "Seventeen Seconds", 1980, "Alternative", "Studio");
 let album4 = new Album("The Cure", "Concert", 1984, "Alternative", "Live");
@@ -90,7 +122,7 @@ let album5 = new Album("The Cure", "The Walk", 1983, "Alternative", "EP");
 let album6 = new Album("The Damned", "The Best of the Damned", 1981, "Punk", "Compilation");
 let album7 = new Album("The Damned", "Live", 1990, "Punk", "Live");
 let album8 = new Album("Tool", "Undertow", 1993, "NuMetal", "Studio");
-newDb.addAlbum(album);
+newDb.addAlbum(album1);
 newDb.addAlbum(album2);
 newDb.addAlbum(album3);
 newDb.addAlbum(album4);
@@ -98,6 +130,6 @@ newDb.addAlbum(album5);
 newDb.addAlbum(album6);
 newDb.addAlbum(album7);
 newDb.addAlbum(album8);
-newDb.findAlbumListByName("The Cure");
+
 
 

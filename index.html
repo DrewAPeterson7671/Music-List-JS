@@ -2,12 +2,28 @@
 <html lang="en-US">
 <head>
   <title>Music Catalogue</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="js/scripts.js"></script>
 </head>
 <body>
-  
-
+  <h1>Music Catalogue</h1>
+  <h2>Add Artist</h2>
+    <form id="new-artist">
+      <label for="new-artist-name"></label>
+      <input type="text" id="new-artist-name">
+      <label for="new-artist-genre"></label>
+      <input type="text" id="new-artist-genre">
+      <button type="submit">Add</button>     
+    </form>
+  <h2>Artists</h2>
+    <ul id="artists">
+    </ul>
+  <div id="show-artist">
+    <p>Artist: <span class="show-artist-name"></span></p>
+    <p>Genre: <span class="show-artist-genre"></span></p>
+  </div>
 
 </body>
 </html>
