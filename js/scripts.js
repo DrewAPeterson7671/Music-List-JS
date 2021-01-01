@@ -44,7 +44,7 @@ MusicDB.prototype.findArtistByName = function(artistName) {
 MusicDB.prototype.findAlbumList = function(artistId) {
   let albumList = [];
   for (i = 1; i <= this.albumId; i++) {
-    if (this.albums[i].artistId === artistId) {
+    if (this.albums[i].artistId == artistId) {
       albumList.push(this.albums[i]);
     };
   };
@@ -81,16 +81,16 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
 
 //OK left off here, trying to display albums.  The delete button is gone again and Note I am calling it in the showArtist function (may need to be a prototype)
 
+//its an array, not an object
+
 function showAlbum(artistId) {
-  let albumList = newDb.findAlbumList(artistId);
+  let albumDisplay = $("ul#show-albums");
+  let albumListDisplays = newDb.findAlbumList(artistId);
   let htmlForAlbums = "";
-  Object.keys(albumList.albums).forEach(function(key) {
-    const album = albumList.findAlbumList(key);
-    console.log(key);
-    console.log(artist.artist);
-    htmlForAlbums += "<li id=" + album.album + ">" + album.albumYear + "</li>";
+  albumListDisplays.forEach(function(albumListDisplay) {
+    htmlForAlbums += "<li id=" + albumListDisplay.albumId + ">" + albumListDisplay.albumName + "</li>";
   });
-  albumList.html(htmlForAlbums);
+  albumDisplay.html(htmlForAlbums);
 }
 
 function showArtist(artistId) {
@@ -98,29 +98,27 @@ function showArtist(artistId) {
   $("#show-artist").show();
   $(".show-artist-name").html(artist.artist);
   $(".show-artist-genre").html(artist.artistGenre);
-  showAlbum(artistId);
+  // showAlbum(artistId);
   let buttons = $("#buttons");
   buttons.empty();
   buttons.append("<button class='deleteButton' id=" + + artist.artistId + ">Delete</button>");
+  buttons.append("<button class='showAlbums' id=" + + artist.artistId + ">Show Albums</button>");
 }
 
-
-//   $("#show-albums").show();
-//   $(".show-artist-name").html(artist.artist);
-//   $(".show-artist-genre").html(artist.artistGenre);
-//   let buttons = $("#buttons");
-//   buttons.empty();
-//   buttons.append("<button class='deleteButton' id=" + + artist.artistId + ">Delete</button>");
-// }
 
 function attachArtistListeners() {
   $("ul#artists").on("click", "li", function() {
     showArtist(this.id);
+    $("ul#show-albums").hide();
   });
   $("#buttons").on("click", ".deleteButton", function() {
     newDb.deleteArtist(this.id);
-    $("#show-contact").hide();
+    $("#show-artist").hide();
     displayArtistDetails(newDb);
+  });
+  $("#buttons").on("click", ".showAlbums", function() {
+    $("ul#show-albums").show();
+    showAlbum(this.id);
   });
 }
 
@@ -159,7 +157,7 @@ newDb.addArtist(artist2);
 newDb.addArtist(artist3);
 newDb.addArtist(artist4);
 let album1 = new Album("REM", "Out of Time", 1991, "Alternative", "Studio");
-let album2 = new Album("REM", "Out Eponymous", 1988, "Alternative", "Compilation");
+let album2 = new Album("REM", "Eponymous", 1988, "Alternative", "Compilation");
 let album3 = new Album("The Cure", "Seventeen Seconds", 1980, "Alternative", "Studio");
 let album4 = new Album("The Cure", "Concert", 1984, "Alternative", "Live");
 let album5 = new Album("The Cure", "The Walk", 1983, "Alternative", "EP");
@@ -175,5 +173,11 @@ newDb.addAlbum(album6);
 newDb.addAlbum(album7);
 newDb.addAlbum(album8);
 
-
+// To Do
+// Sort Artists alphabetically
+// add album
+// list all albume properties
+// Sort albums by properties
+// Delete albums with artist deletion
+// Delete individual albums
 
