@@ -79,10 +79,6 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
   this.albumRating = "";
 }
 
-//OK left off here, trying to display albums.  The delete button is gone again and Note I am calling it in the showArtist function (may need to be a prototype)
-
-//its an array, not an object
-
 function showAlbum(artistId) {
   let albumDisplay = $("ul#show-albums");
   let albumListDisplays = newDb.findAlbumList(artistId);
@@ -98,7 +94,6 @@ function showArtist(artistId) {
   $("#show-artist").show();
   $(".show-artist-name").html(artist.artist);
   $(".show-artist-genre").html(artist.artistGenre);
-  // showAlbum(artistId);
   let buttons = $("#buttons");
   buttons.empty();
   buttons.append("<button class='deleteButton' id=" + + artist.artistId + ">Delete</button>");
