@@ -79,13 +79,56 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
   this.albumRating = "";
 }
 
+//OK left off here, trying to display albums.  The delete button is gone again and Note I am calling it in the showArtist function (may need to be a prototype)
+
+function showAlbum(artistId) {
+  let albumList = newDb.findAlbumList(artistId);
+  let htmlForAlbums = "";
+  Object.keys(albumList.albums).forEach(function(key) {
+    const album = albumList.findAlbumList(key);
+    console.log(key);
+    console.log(artist.artist);
+    htmlForAlbums += "<li id=" + album.album + ">" + album.albumYear + "</li>";
+  });
+  albumList.html(htmlForAlbums);
+}
+
+function showArtist(artistId) {
+  const artist = newDb.findArtist(artistId);
+  $("#show-artist").show();
+  $(".show-artist-name").html(artist.artist);
+  $(".show-artist-genre").html(artist.artistGenre);
+  showAlbum(artistId);
+  let buttons = $("#buttons");
+  buttons.empty();
+  buttons.append("<button class='deleteButton' id=" + + artist.artistId + ">Delete</button>");
+}
+
+
+//   $("#show-albums").show();
+//   $(".show-artist-name").html(artist.artist);
+//   $(".show-artist-genre").html(artist.artistGenre);
+//   let buttons = $("#buttons");
+//   buttons.empty();
+//   buttons.append("<button class='deleteButton' id=" + + artist.artistId + ">Delete</button>");
+// }
+
+function attachArtistListeners() {
+  $("ul#artists").on("click", "li", function() {
+    showArtist(this.id);
+  });
+  $("#buttons").on("click", ".deleteButton", function() {
+    newDb.deleteArtist(this.id);
+    $("#show-contact").hide();
+    displayArtistDetails(newDb);
+  });
+}
+
 function displayArtistDetails(artistsToDisplay) {
   let artistList = $("ul#artists");
   let htmlForArtists = "";
   Object.keys(artistsToDisplay.artists).forEach(function(key) {
     const artist = artistsToDisplay.findArtist(key);
-    console.log(key);
-    console.log(artist.artist);
     htmlForArtists += "<li id=" + artist.artistId + ">" + artist.artist + "</li>";
   });
   artistList.html(htmlForArtists);
@@ -95,6 +138,7 @@ let newDb = new MusicDB();
 
 $(document).ready(function() {
   displayArtistDetails(newDb);
+  attachArtistListeners();
   $("form#new-artist").submit(function(event) {
     event.preventDefault();
     let inputArtistName = $("input#new-artist-name").val();
