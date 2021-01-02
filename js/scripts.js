@@ -35,7 +35,7 @@ MusicDB.prototype.findArtist = function(id) {
 
 MusicDB.prototype.findArtistByName = function(artistName) {
   for (i = 1; i <= this.artistId; i++) {
-    if (this.artists[i].artist === artistName) {
+    if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
       return i;
     };
   };
@@ -201,6 +201,7 @@ newDb.addAlbum(album7);
 newDb.addAlbum(album8);
 
 // To Do
+// bug, if an artist deleted and then add artist and add album, album doesn't show 
 // bug, if on other artist in Add Album, will add to wrong artist
 // need delete album button
 // Sort Artists alphabetically
