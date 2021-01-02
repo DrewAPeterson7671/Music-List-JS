@@ -51,6 +51,15 @@ MusicDB.prototype.findAlbumList = function(artistId) {
   return albumList;
 };
 
+MusicDB.prototype.deleteArtistAlbums = function (artistId) {
+  for (i = 1; i <= this.albumId; i++) {
+    if (this.albums[i].artistId == artistId) {
+      delete this.albums[i];
+    };
+  };
+  return true;
+}
+
 MusicDB.prototype.findAlbumListByName = function(artistName) {
   let artId = newDb.findArtistByName(artistName);
   let albumList = newDb.findAlbumList(artId);
@@ -62,6 +71,7 @@ MusicDB.prototype.deleteArtist = function(id) {
     return false;
   }
   delete this.artists[id];
+
   return true;
 }
 
@@ -92,7 +102,6 @@ function showAlbum(artistId) {
 
 function showArtist(artistId) {
   currentDisplayArtist = artistId;
-  console.log(currentDisplayArtist + " From showArtist");
   const artist = newDb.findArtist(artistId);
   $("#show-artist").show();
   $(".show-artist-name").html(artist.artist);
@@ -108,7 +117,8 @@ function showArtist(artistId) {
 function attachArtistListeners() {
   $("ul#artists").on("click", "li", function() {
     showArtist(this.id);
-    $("ul#show-albums").hide();
+    $("#show-albums").show();
+    showAlbum(this.id);
   });
   $("#buttons").on("click", ".deleteButton", function() {
     newDb.deleteArtist(this.id);
@@ -116,12 +126,11 @@ function attachArtistListeners() {
     displayArtistDetails(newDb);
   });
   $("#buttons").on("click", ".showAlbums", function() {
-    $("ul#show-albums").toggle();
+    $("#show-albums").toggle();
     showAlbum(this.id);
   });
   $("#buttons").on("click", ".addAlbums", function() {
     $("#show-add-albums").toggle();
-    console.log(currentDisplayArtist + " From Listener");
   });
 }
 
@@ -152,7 +161,6 @@ $(document).ready(function() {
 //New Album Form
   $("form#new-album").submit(function(event) {
     event.preventDefault();
-    console.log("Artist Id " + currentDisplayArtist);
     let artistId = currentDisplayArtist;
     let albumArtist = newDb.findArtist(artistId).artist;
     let inputAlbumName = $("input#new-album-name").val();
@@ -161,9 +169,7 @@ $(document).ready(function() {
     let inputAlbumType = $("input#new-album-type").val();    
     let newAlbum = new Album(albumArtist, inputAlbumName, inputAlbumYear, inputAlbumGenre, inputAlbumType);
     newDb.addAlbum(newAlbum);
-    console.log(newAlbum);
     showAlbum(currentDisplayArtist);
-    console.log(newDb.albums)
   })    
 })
 
@@ -195,7 +201,6 @@ newDb.addAlbum(album8);
 
 // To Do
 // Sort Artists alphabetically
-// add album
 // list all albume properties
 // Sort albums by properties
 // Delete albums with artist deletion
