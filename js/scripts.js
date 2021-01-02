@@ -89,6 +89,15 @@ function showAlbum(artistId) {
   albumDisplay.html(htmlForAlbums);
 }
 
+///working here - need to show the form, then grab jquery input and send to new album.
+
+function newAlbumForm(artistId) {
+  $("ul#show-add-albums").hide();
+
+
+
+}
+
 function showArtist(artistId) {
   const artist = newDb.findArtist(artistId);
   $("#show-artist").show();
@@ -96,8 +105,9 @@ function showArtist(artistId) {
   $(".show-artist-genre").html(artist.artistGenre);
   let buttons = $("#buttons");
   buttons.empty();
-  buttons.append("<button class='deleteButton' id=" + + artist.artistId + ">Delete</button>");
+  buttons.append("<button class='deleteButton' id=" + + artist.artistId + ">Delete Artist</button>");
   buttons.append("<button class='showAlbums' id=" + + artist.artistId + ">Show Albums</button>");
+  buttons.append("<button class='addAlbums' id=" + + artist.artistId + ">Add Album</button>");
 }
 
 
@@ -112,8 +122,12 @@ function attachArtistListeners() {
     displayArtistDetails(newDb);
   });
   $("#buttons").on("click", ".showAlbums", function() {
-    $("ul#show-albums").show();
+    $("ul#show-albums").toggle();
     showAlbum(this.id);
+  });
+  $("#buttons").on("click", ".addAlbums", function() {
+    $("ul#show-add-albums").toggle();
+    newAlbumForm(this.id);
   });
 }
 
@@ -139,7 +153,22 @@ $(document).ready(function() {
     let newArtist = new Artist(inputArtistName, inputArtistGenre);
     newDb.addArtist(newArtist);
     displayArtistDetails(newDb);
-  })  
+  })
+//New Album Form
+  $("form#new-album").submit(function(event) {
+    event.preventDefault();
+    console.log("Artist Id " + artist.artistId);
+//So the add album button feeds Id to NewAlbumForm, so how do I connect it here?  The key is the artist Id must pass through. 
+    let artistId = artist.artistId;
+    let albumArtist = newDb.findArtist(artistId);
+    let inputAlbumName = $("input#new-album-name").val();
+    let inputAlbumYear = $("input#new-album-year").val();
+    let inputAlbumGenre = $("input#new-album-genre").val();
+    let inputAlbumType = $("input#new-album-type").val();    
+    let newAlbum = new Album(albumArtist, inputAlbumName, inputAlbumYear, inputAlbumGenre, inputAlbumType);
+    newDb.addAlbum(newAlbum);
+    // displayArtistDetails(newDb);
+  })    
 })
 
 
