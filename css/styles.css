@@ -8,3 +8,6 @@ ul {
 #show-add-albums {
   display: none;
 }
+#show-album-details {
+  display: none;
+}

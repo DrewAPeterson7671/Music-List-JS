@@ -33,6 +33,13 @@ MusicDB.prototype.findArtist = function(id) {
   return false;
 }
 
+MusicDB.prototype.findAlbum = function(id) {
+  if (this.albums[id] != undefined ) {
+    return this.albums[id];
+  }
+  return false;
+}
+
 MusicDB.prototype.findArtistByName = function(artistName) {
   for (i = 1; i <= this.artistId; i++) {
     if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
@@ -113,6 +120,19 @@ function showArtist(artistId) {
   buttons.append("<button class='addAlbums' id=" + + artist.artistId + ">Add Album</button>");
 }
 
+function showAlbumDetails(albumId) {
+  const albumDetail = newDb.findAlbum(albumId);
+  $("show-album-details").show();
+  $(".show-album-name").html(albumDetail.albumName);
+  $(".show-album-year").html(albumDetail.albumYear);    
+  $(".show-album-genre").html(albumDetail.albumGenre);  
+  $(".show-album-type").html(albumDetail.albumType);
+  // This is where we add delete and hide buttons
+  // let buttons = $("#buttons");
+  // buttons.empty();
+  // buttons.append("<button class='deleteButton' id=" + + album.albumId + ">Delete Album</button>");
+  // buttons.append("<button class='showAlbumDetail' id=" + + album.albumId + ">Hide Albums</button>");
+}
 
 function attachArtistListeners() {
   $("ul#artists").on("click", "li", function() {
@@ -133,6 +153,10 @@ function attachArtistListeners() {
   });
   $("#buttons").on("click", ".addAlbums", function() {
     $("#show-add-albums").toggle();
+  });
+  $("ul#show-albums").on("click", "li", function() {
+    showAlbumDetails(this.id);
+    $("#show-album-details").show();
   });
 }
 
@@ -208,8 +232,6 @@ newDb.addAlbum(album7);
 newDb.addAlbum(album8);
 
 // To Do
-// bug, if an artist deleted and then add artist and add album, album doesn't show 
-// bug, if on other artist in Add Album, will add to wrong artist
 // need delete album button
 // Sort Artists alphabetically
 // list all album properties
