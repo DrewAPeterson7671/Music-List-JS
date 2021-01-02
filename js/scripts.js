@@ -44,7 +44,7 @@ MusicDB.prototype.findArtistByName = function(artistName) {
 MusicDB.prototype.findAlbumList = function(artistId) {
   let albumList = [];
   for (i = 1; i <= this.albumId; i++) {
-    if (this.albums[i].artistId == artistId) {
+    if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
       albumList.push(this.albums[i]);
     };
   };
@@ -53,7 +53,7 @@ MusicDB.prototype.findAlbumList = function(artistId) {
 
 MusicDB.prototype.deleteArtistAlbums = function (artistId) {
   for (i = 1; i <= this.albumId; i++) {
-    if (this.albums[i].artistId == artistId) {
+    if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
       delete this.albums[i];
     };
   };
@@ -71,7 +71,7 @@ MusicDB.prototype.deleteArtist = function(id) {
     return false;
   }
   delete this.artists[id];
-
+  this.deleteArtistAlbums(id);
   return true;
 }
 
@@ -109,7 +109,7 @@ function showArtist(artistId) {
   let buttons = $("#buttons");
   buttons.empty();
   buttons.append("<button class='deleteButton' id=" + + artist.artistId + ">Delete Artist</button>");
-  buttons.append("<button class='showAlbums' id=" + + artist.artistId + ">Show Albums</button>");
+  buttons.append("<button class='showAlbums' id=" + + artist.artistId + ">Hide Albums</button>");
   buttons.append("<button class='addAlbums' id=" + + artist.artistId + ">Add Album</button>");
 }
 
@@ -121,8 +121,9 @@ function attachArtistListeners() {
     showAlbum(this.id);
   });
   $("#buttons").on("click", ".deleteButton", function() {
-    newDb.deleteArtist(this.id);
     $("#show-artist").hide();
+    $("#show-albums").hide();
+    newDb.deleteArtist(this.id);
     displayArtistDetails(newDb);
   });
   $("#buttons").on("click", ".showAlbums", function() {
@@ -158,7 +159,7 @@ $(document).ready(function() {
     newDb.addArtist(newArtist);
     displayArtistDetails(newDb);
   })
-//New Album Form
+
   $("form#new-album").submit(function(event) {
     event.preventDefault();
     let artistId = currentDisplayArtist;
@@ -200,9 +201,10 @@ newDb.addAlbum(album7);
 newDb.addAlbum(album8);
 
 // To Do
+// bug, if on other artist in Add Album, will add to wrong artist
+// need delete album button
 // Sort Artists alphabetically
-// list all albume properties
+// list all album properties
 // Sort albums by properties
-// Delete albums with artist deletion
 // Delete individual albums
 
