@@ -89,16 +89,10 @@ function showAlbum(artistId) {
   albumDisplay.html(htmlForAlbums);
 }
 
-///working here - need to show the form, then grab jquery input and send to new album.
-
-function newAlbumForm(artistId) {
-  $("ul#show-add-albums").hide();
-
-
-
-}
 
 function showArtist(artistId) {
+  currentDisplayArtist = artistId;
+  console.log(currentDisplayArtist + " From showArtist");
   const artist = newDb.findArtist(artistId);
   $("#show-artist").show();
   $(".show-artist-name").html(artist.artist);
@@ -126,8 +120,8 @@ function attachArtistListeners() {
     showAlbum(this.id);
   });
   $("#buttons").on("click", ".addAlbums", function() {
-    $("ul#show-add-albums").toggle();
-    newAlbumForm(this.id);
+    $("#show-add-albums").toggle();
+    console.log(currentDisplayArtist + " From Listener");
   });
 }
 
@@ -142,6 +136,7 @@ function displayArtistDetails(artistsToDisplay) {
 }
 
 let newDb = new MusicDB();
+let currentDisplayArtist = 0;
 
 $(document).ready(function() {
   displayArtistDetails(newDb);
@@ -157,17 +152,18 @@ $(document).ready(function() {
 //New Album Form
   $("form#new-album").submit(function(event) {
     event.preventDefault();
-    console.log("Artist Id " + artist.artistId);
-//So the add album button feeds Id to NewAlbumForm, so how do I connect it here?  The key is the artist Id must pass through. 
-    let artistId = artist.artistId;
-    let albumArtist = newDb.findArtist(artistId);
+    console.log("Artist Id " + currentDisplayArtist);
+    let artistId = currentDisplayArtist;
+    let albumArtist = newDb.findArtist(artistId).artist;
     let inputAlbumName = $("input#new-album-name").val();
     let inputAlbumYear = $("input#new-album-year").val();
     let inputAlbumGenre = $("input#new-album-genre").val();
     let inputAlbumType = $("input#new-album-type").val();    
     let newAlbum = new Album(albumArtist, inputAlbumName, inputAlbumYear, inputAlbumGenre, inputAlbumType);
     newDb.addAlbum(newAlbum);
-    // displayArtistDetails(newDb);
+    console.log(newAlbum);
+    showAlbum(currentDisplayArtist);
+    console.log(newDb.albums)
   })    
 })
 
