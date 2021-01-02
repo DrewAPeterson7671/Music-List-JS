@@ -123,6 +123,7 @@ function attachArtistListeners() {
   $("#buttons").on("click", ".deleteButton", function() {
     $("#show-artist").hide();
     $("#show-albums").hide();
+    $("#show-add-albums").hide();
     newDb.deleteArtist(this.id);
     displayArtistDetails(newDb);
   });
@@ -155,6 +156,8 @@ $(document).ready(function() {
     event.preventDefault();
     let inputArtistName = $("input#new-artist-name").val();
     let inputArtistGenre = $("input#new-artist-genre").val();
+    $("input#new-artist-name").val("");
+    $("input#new-artist-genre").val("");
     let newArtist = new Artist(inputArtistName, inputArtistGenre);
     newDb.addArtist(newArtist);
     displayArtistDetails(newDb);
@@ -167,7 +170,11 @@ $(document).ready(function() {
     let inputAlbumName = $("input#new-album-name").val();
     let inputAlbumYear = $("input#new-album-year").val();
     let inputAlbumGenre = $("input#new-album-genre").val();
-    let inputAlbumType = $("input#new-album-type").val();    
+    let inputAlbumType = $("input#new-album-type").val();
+    $("input#new-album-name").val("");
+    $("input#new-album-year").val("");
+    $("input#new-album-genre").val("");
+    $("input#new-album-type").val("");    
     let newAlbum = new Album(albumArtist, inputAlbumName, inputAlbumYear, inputAlbumGenre, inputAlbumType);
     newDb.addAlbum(newAlbum);
     showAlbum(currentDisplayArtist);
