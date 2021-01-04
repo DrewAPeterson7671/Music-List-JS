@@ -40,6 +40,11 @@ MusicDB.prototype.findAlbum = function(id) {
   return false;
 }
 
+MusicDB.prototype.sortArtistAlpha = function(property) {
+  Object.values(newDb.artists[1].artist);
+
+}
+
 MusicDB.prototype.findArtistByName = function(artistName) {
   for (i = 1; i <= this.artistId; i++) {
     if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
@@ -81,6 +86,10 @@ MusicDB.prototype.deleteArtist = function(id) {
   this.deleteArtistAlbums(id);
   return true;
 }
+
+// MusicDB.prototype.deleteAlbum = function(id) {
+  
+// }
 
 function Artist(artist, artistGenre) {
   this.artist = artist;
@@ -127,11 +136,10 @@ function showAlbumDetails(albumId) {
   $(".show-album-year").html(albumDetail.albumYear);    
   $(".show-album-genre").html(albumDetail.albumGenre);  
   $(".show-album-type").html(albumDetail.albumType);
-  // This is where we add delete and hide buttons
-  // let buttons = $("#buttons");
-  // buttons.empty();
-  // buttons.append("<button class='deleteButton' id=" + + album.albumId + ">Delete Album</button>");
-  // buttons.append("<button class='showAlbumDetail' id=" + + album.albumId + ">Hide Albums</button>");
+  let albumButtons = $("#albumButtons");
+  albumButtons.empty();
+  albumButtons.append("<button class='deleteAlbumButton' id=" + + albumDetail.albumId + ">Delete Album</button>");
+  albumButtons.append("<button class='showAlbumDetail' id=" + + albumDetail.albumId + ">Hide Album Details</button>");
 }
 
 function attachArtistListeners() {
@@ -157,6 +165,14 @@ function attachArtistListeners() {
   $("ul#show-albums").on("click", "li", function() {
     showAlbumDetails(this.id);
     $("#show-album-details").show();
+  });
+  $("#albumButtons").on("click", ".showAlbumDetail", function() {
+    $("#show-album-details").hide();
+  });
+  $("#albumButtons").on("click", ".deleteAlbumButton", function() {
+    $("#show-album-details").hide();
+    $("#show-albums").hide();
+    deleteAlbum(this.id);
   });
 }
 
@@ -232,9 +248,9 @@ newDb.addAlbum(album7);
 newDb.addAlbum(album8);
 
 // To Do
-// need delete album button
+// working on delete album and hide buttons (need a delete album function)
 // Sort Artists alphabetically
+// need to refactor for an array of objects for easier sorting.  
 // list all album properties
 // Sort albums by properties
-// Delete individual albums
 
