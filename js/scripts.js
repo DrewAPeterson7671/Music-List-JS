@@ -87,9 +87,13 @@ MusicDB.prototype.deleteArtist = function(id) {
   return true;
 }
 
-// MusicDB.prototype.deleteAlbum = function(id) {
-  
-// }
+MusicDB.prototype.deleteAlbum = function(id) {
+  if (this.albums[id] === undefined) {
+    return false;
+  }
+  delete this.albums[id];
+  return true;
+}
 
 function Artist(artist, artistGenre) {
   this.artist = artist;
@@ -172,7 +176,7 @@ function attachArtistListeners() {
   $("#albumButtons").on("click", ".deleteAlbumButton", function() {
     $("#show-album-details").hide();
     $("#show-albums").hide();
-    deleteAlbum(this.id);
+    newDb.deleteAlbum(this.id);
   });
 }
 
