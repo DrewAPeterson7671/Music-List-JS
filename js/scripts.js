@@ -31,7 +31,7 @@ MusicDB.prototype.addAlbum = function(album) {
 MusicDB.prototype.findArtist = function(searchId) { 
   for (i = 0; i < newDb.artists.length; i++) {
     if (newDb.artists[i].artistId != undefined && newDb.artists[i].artistId == searchId) {
-      return newDb.artists[i].artistId;
+      return i;
     }
   }
   return false;
@@ -48,8 +48,10 @@ MusicDB.prototype.findAlbum = function(searchId) {
 
 // ES15 newDb.artists.find( ({ artistId }) => artistId === 2);
 
+
+//Suspect ID
 MusicDB.prototype.findArtistByName = function(artistName) {
-  for (i = 1; i <= this.artistId; i++) {
+  for (i = 0; i < newDb.artists.length; i++) {
     if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
       return i;
     };
@@ -57,29 +59,23 @@ MusicDB.prototype.findArtistByName = function(artistName) {
 };
 
 MusicDB.prototype.findAlbumList = function(artistId) {
-  let albumList = [];
-  for (i = 1; i <= this.albumId; i++) {
-    if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
+  const artistElement = newDb.findArtist(artistId);
+  const albumList = [];
+  for (i = 0; i < newDb.albums.length; i++) {
+    if (this.albums[i] != undefined && this.albums[i].artistId == artistElement) {
       albumList.push(this.albums[i]);
     };
   };
   return albumList;
 };
 
-MusicDB.prototype.deleteArtistAlbums = function (artistId) {
-  for (i = 1; i <= this.albumId; i++) {
-    if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
-      delete this.albums[i];
-    };
-  };
-  return true;
-}
-
 MusicDB.prototype.findAlbumListByName = function(artistName) {
   let artId = newDb.findArtistByName(artistName);
   let albumList = newDb.findAlbumList(artId);
   return albumList;
 };
+
+//Test these again
 
 MusicDB.prototype.deleteArtist = function(id) {
   if (this.artists[id] === undefined) {
@@ -98,6 +94,16 @@ MusicDB.prototype.deleteAlbum = function(id) {
   return true;
 }
 
+MusicDB.prototype.deleteArtistAlbums = function (artistId) {
+  for (i = 0; i < newDb.albums.length; i++) {
+    if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
+      delete this.albums[i];
+    };
+  };
+  return true;
+}
+
+
 function Artist(artist, artistGenre) {
   this.artist = artist;
   this.artistGenre = artistGenre;
@@ -112,7 +118,31 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
   this.albumRating = "";
 }
 
+
 //Front End
+
+
+function showArtist(artistId) {
+  currentDisplayArtist = artistId;
+  const artistElement = newDb.findArtist(artistId);
+  $("#show-artist").show();
+  $(".show-artist-name").html(newDb.artists[artistElement].artist);
+  $(".show-artist-genre").html(newDb.artists[artistElement].artistGenre);
+  let buttons = $("#buttons");
+  buttons.empty();
+  buttons.append("<button class='deleteButton' id=" + + newDb.artists[artistElement].artistId + ">Delete Artist</button>");
+  buttons.append("<button class='showAlbums' id=" + + newDb.artists[artistElement].artistId + ">Hide Albums</button>");
+  buttons.append("<button class='addAlbums' id=" + + newDb.artists[artistElement].artistId + ">Add Album</button>");
+}
+
+function displayArtistList() {
+  let artistList = $("ul#artists");
+  let htmlForArtists = "";
+  newDb.artists.forEach(function(artist) {
+    htmlForArtists += "<li id=" + artist.artistId + ">" + artist.artist + "</li>";
+  })
+  artistList.html(htmlForArtists);
+}
 
 function showAlbum(artistId) {
   let albumDisplay = $("ul#show-albums");
@@ -122,20 +152,6 @@ function showAlbum(artistId) {
     htmlForAlbums += "<li id=" + albumListDisplay.albumId + ">" + albumListDisplay.albumName + "</li>";
   });
   albumDisplay.html(htmlForAlbums);
-}
-
-
-function showArtist(artistId) {
-  currentDisplayArtist = artistId;
-  const artist = newDb.findArtist(artistId);
-  $("#show-artist").show();
-  $(".show-artist-name").html(artist.artist);
-  $(".show-artist-genre").html(artist.artistGenre);
-  let buttons = $("#buttons");
-  buttons.empty();
-  buttons.append("<button class='deleteButton' id=" + + artist.artistId + ">Delete Artist</button>");
-  buttons.append("<button class='showAlbums' id=" + + artist.artistId + ">Hide Albums</button>");
-  buttons.append("<button class='addAlbums' id=" + + artist.artistId + ">Add Album</button>");
 }
 
 function showAlbumDetails(albumId) {
@@ -162,7 +178,7 @@ function attachArtistListeners() {
     $("#show-albums").hide();
     $("#show-add-albums").hide();
     newDb.deleteArtist(this.id);
-    displayArtistDetails(newDb);
+    displayArtistList();
   });
   $("#buttons").on("click", ".showAlbums", function() {
     $("#show-albums").toggle();
@@ -185,21 +201,12 @@ function attachArtistListeners() {
   });
 }
 
-function displayArtistDetails(artistsToDisplay) {
-  let artistList = $("ul#artists");
-  let htmlForArtists = "";
-  Object.keys(artistsToDisplay.artists).forEach(function(key) {
-    const artist = artistsToDisplay.findArtist(key);
-    htmlForArtists += "<li id=" + artist.artistId + ">" + artist.artist + "</li>";
-  });
-  artistList.html(htmlForArtists);
-}
 
 let newDb = new MusicDB();
 let currentDisplayArtist = 0;
 
 $(document).ready(function() {
-  displayArtistDetails(newDb);
+  displayArtistList();
   attachArtistListeners();
   $("form#new-artist").submit(function(event) {
     event.preventDefault();
@@ -209,7 +216,7 @@ $(document).ready(function() {
     $("input#new-artist-genre").val("");
     let newArtist = new Artist(inputArtistName, inputArtistGenre);
     newDb.addArtist(newArtist);
-    displayArtistDetails(newDb);
+    displayArtistList();
   })
 
   $("form#new-album").submit(function(event) {
