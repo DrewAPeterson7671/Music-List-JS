@@ -28,24 +28,25 @@ MusicDB.prototype.addAlbum = function(album) {
   this.albums.push(album);
 }
 
-MusicDB.prototype.findArtist = function(id) {
-  if (this.artists[id] != undefined ) {
-    return this.artists[id];
+MusicDB.prototype.findArtist = function(searchId) { 
+  for (i = 0; i < newDb.artists.length; i++) {
+    if (newDb.artists[i].artistId != undefined && newDb.artists[i].artistId == searchId) {
+      return newDb.artists[i].artistId;
+    }
   }
   return false;
 }
 
-MusicDB.prototype.findAlbum = function(id) {
-  if (this.albums[id] != undefined ) {
-    return this.albums[id];
+MusicDB.prototype.findAlbum = function(searchId) { 
+  for (i = 0; i < newDb.albums.length; i++) {
+    if (newDb.albums[i].albumId != undefined && newDb.albums[i].albumId == searchId) {
+      return newDb.albums[i].albumId;
+    }
   }
   return false;
 }
 
-// MusicDB.prototype.sortArtistAlpha = function(property) {
-//   Object.values(newDb.artists[1].artist);
-
-// }
+// ES15 newDb.artists.find( ({ artistId }) => artistId === 2);
 
 MusicDB.prototype.findArtistByName = function(artistName) {
   for (i = 1; i <= this.artistId; i++) {
