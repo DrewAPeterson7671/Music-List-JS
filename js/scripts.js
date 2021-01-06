@@ -1,8 +1,10 @@
+//Back-End
+
 function MusicDB() {
-  this.artists = {};
+  this.artists = [];
+  this.albums = [];
   this.artistId = 0;
   this.albumId = 0;
-  this.albums = {};
 }
 
 MusicDB.prototype.assignArtistId = function() {
@@ -17,13 +19,13 @@ MusicDB.prototype.assignAlbumId = function() {
 
 MusicDB.prototype.addArtist = function(artist) {
   artist.artistId = this.assignArtistId();
-  this.artists[artist.artistId] = artist;
+  this.artists.push(artist);
 }
 
 MusicDB.prototype.addAlbum = function(album) {
   album.albumId = this.assignAlbumId();
   album.artistId = newDb.findArtistByName(album.albumArtist);
-  this.albums[album.albumId] = album;
+  this.albums.push(album);
 }
 
 MusicDB.prototype.findArtist = function(id) {
@@ -40,10 +42,10 @@ MusicDB.prototype.findAlbum = function(id) {
   return false;
 }
 
-MusicDB.prototype.sortArtistAlpha = function(property) {
-  Object.values(newDb.artists[1].artist);
+// MusicDB.prototype.sortArtistAlpha = function(property) {
+//   Object.values(newDb.artists[1].artist);
 
-}
+// }
 
 MusicDB.prototype.findArtistByName = function(artistName) {
   for (i = 1; i <= this.artistId; i++) {
@@ -108,6 +110,8 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
   this.albumType = albumType;
   this.albumRating = "";
 }
+
+//Front End
 
 function showAlbum(artistId) {
   let albumDisplay = $("ul#show-albums");
@@ -252,7 +256,6 @@ newDb.addAlbum(album7);
 newDb.addAlbum(album8);
 
 // To Do
-// working on delete album and hide buttons (need a delete album function)
 // Sort Artists alphabetically
 // need to refactor for an array of objects for easier sorting.  
 // list all album properties
