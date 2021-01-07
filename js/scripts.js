@@ -44,12 +44,10 @@ MusicDB.prototype.findArtistId = function(searchIndex) {
   return false;
 }
 
-//Testing Here
 MusicDB.prototype.findAlbum = function(searchId) { 
   for (i = 0; i < newDb.albums.length; i++) {
     if (newDb.albums[i].albumId != undefined && newDb.albums[i].albumId == searchId) {
-      console.log(newDb.albums[i].albumName);
-      return newDb.albums[i].albumId;
+      return newDb.albums[i];
     }
   }
   return false;
@@ -58,7 +56,7 @@ MusicDB.prototype.findAlbum = function(searchId) {
 // ES15 newDb.artists.find( ({ artistId }) => artistId === 2);
 
 
-MusicDB.prototype.findArtistElementByName = function(artistName) {
+MusicDB.prototype.findArtistIndexByName = function(artistName) {
   for (i = 0; i < newDb.artists.length; i++) {
     if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
       return i;
@@ -96,15 +94,7 @@ MusicDB.prototype.deleteArtist = function(searchId) {
     return false;
   }
   delete this.artists[artistIndex];
-  this.deleteArtistAlbums(artistIndex);
-  return true;
-}
-
-MusicDB.prototype.deleteAlbum = function(id) {
-  if (this.albums[id] === undefined) {
-    return false;
-  }
-  delete this.albums[id];
+  this.deleteArtistAlbums(searchId);
   return true;
 }
 
@@ -117,6 +107,14 @@ MusicDB.prototype.deleteArtistAlbums = function (artistId) {
   return true;
 }
 
+//Testing Here
+MusicDB.prototype.deleteAlbum = function(id) {
+  if (this.albums[id] === undefined) {
+    return false;
+  }
+  delete this.albums[id];
+  return true;
+}
 
 function Artist(artist, artistGenre) {
   this.artist = artist;
@@ -137,7 +135,7 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
 
 
 function showArtist(artistId) {
-  currentDisplayArtistId = artistIndex;
+  currentDisplayArtistId = artistId;
   const artistElement = newDb.findArtistIndex(artistId);
   $("#show-artist").show();
   $(".show-artist-name").html(newDb.artists[artistElement].artist);
@@ -279,6 +277,10 @@ newDb.addAlbum(album7);
 newDb.addAlbum(album8);
 
 // To Do
+// Try adding artist, test all
+// Delete artist, test all
+// add album, test all
+// delete albume, test all
 // Sort Artists alphabetically
 // need to refactor for an array of objects for easier sorting.  
 // list all album properties
