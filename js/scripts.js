@@ -72,6 +72,15 @@ MusicDB.prototype.findArtistIdByName = function(artistName) {
   };
 };
 
+MusicDB.prototype.findArtistByAlbumId = function(albumId) { 
+  for (i = 0; i < newDb.albums.length; i++) {
+    if (newDb.albums[i].albumId != undefined && newDb.albums[i].albumId == albumId) {
+      return newDb.albums[i].artistId;
+    }
+  }
+  return false;
+}
+
 MusicDB.prototype.findAlbumList = function(artistId) {
   const albumList = [];
   for (i = 0; i < newDb.albums.length; i++) {
@@ -98,7 +107,7 @@ MusicDB.prototype.deleteArtist = function(searchId) {
   return true;
 }
 
-MusicDB.prototype.deleteArtistAlbums = function (artistId) {
+MusicDB.prototype.deleteArtistAlbums = function(artistId) {
   for (i = 0; i < newDb.albums.length; i++) {
     if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
       delete this.albums[i];
@@ -107,13 +116,15 @@ MusicDB.prototype.deleteArtistAlbums = function (artistId) {
   return true;
 }
 
-//Testing Here
-MusicDB.prototype.deleteAlbum = function(id) {
-  if (this.albums[id] === undefined) {
-    return false;
-  }
-  delete this.albums[id];
-  return true;
+//Testing Here - after delete, album details gets stuck
+MusicDB.prototype.deleteAlbum = function(albumId) {
+  for (i = 0; i < newDb.albums.length; i++) {
+    if (this.albums[i] != undefined && this.albums[i].albumId == albumId) {
+      delete this.albums[i];
+      return true;
+    };
+  };
+  return false;
 }
 
 function Artist(artist, artistGenre) {
@@ -210,6 +221,9 @@ function attachArtistListeners() {
     $("#show-album-details").hide();
     $("#show-albums").hide();
     newDb.deleteAlbum(this.id);
+    console.log(this.id + " This is the handler Id");
+    albumArtistId = newDb.findArtistByAlbumId(this.id);
+    showAlbumDetails(albumArtistId);
   });
 }
 
