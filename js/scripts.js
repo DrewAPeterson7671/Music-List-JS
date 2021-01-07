@@ -46,7 +46,7 @@ MusicDB.prototype.findArtistId = function(searchIndex) {
 
 MusicDB.prototype.findAlbum = function(searchId) { 
   for (i = 0; i < newDb.albums.length; i++) {
-    if (newDb.albums[i].albumId != undefined && newDb.albums[i].albumId == searchId) {
+    if (newDb.albums[i] != undefined && newDb.albums[i].albumId == searchId) {
       return newDb.albums[i];
     }
   }
@@ -54,7 +54,6 @@ MusicDB.prototype.findAlbum = function(searchId) {
 }
 
 // ES15 newDb.artists.find( ({ artistId }) => artistId === 2);
-
 
 MusicDB.prototype.findArtistIndexByName = function(artistName) {
   for (i = 0; i < newDb.artists.length; i++) {
@@ -116,7 +115,6 @@ MusicDB.prototype.deleteArtistAlbums = function(artistId) {
   return true;
 }
 
-//Testing Here - after delete, album details gets stuck
 MusicDB.prototype.deleteAlbum = function(albumId) {
   for (i = 0; i < newDb.albums.length; i++) {
     if (this.albums[i] != undefined && this.albums[i].albumId == albumId) {
@@ -212,6 +210,7 @@ function attachArtistListeners() {
   });
   $("ul#show-albums").on("click", "li", function() {
     showAlbumDetails(this.id);
+    console.log(this.id + " the album id by the click handler")
     $("#show-album-details").show();
   });
   $("#albumButtons").on("click", ".showAlbumDetail", function() {
@@ -221,9 +220,6 @@ function attachArtistListeners() {
     $("#show-album-details").hide();
     $("#show-albums").hide();
     newDb.deleteAlbum(this.id);
-    console.log(this.id + " This is the handler Id");
-    albumArtistId = newDb.findArtistByAlbumId(this.id);
-    showAlbumDetails(albumArtistId);
   });
 }
 
