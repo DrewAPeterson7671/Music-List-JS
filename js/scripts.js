@@ -28,23 +28,23 @@ MusicDB.prototype.addAlbum = function(album) {
   this.albums.push(album);
 }
 
-MusicDB.prototype.findArtistElement = function(searchId) { 
+MusicDB.prototype.findArtistIndex = function(searchId) { 
   for (i = 0; i < newDb.artists.length; i++) {
-    if (newDb.artists[i].artistId != undefined && newDb.artists[i].artistId == searchId) {
+    if (newDb.artists[i] != undefined && newDb.artists[i].artistId == searchId) {
       return i;
     }
   }
   return false;
 }
 
-MusicDB.prototype.findArtistId = function(searchId) {
-  if (newDb.artists[searchId].artistId != undefined) {
-    return newDb.artists[searchId].artistId;
+MusicDB.prototype.findArtistId = function(searchIndex) {
+  if (newDb.artists[searchIndex] != undefined) {
+    return newDb.artists[searchIndex].artistId;
   }
   return false;
 }
 
-
+//Testing Here
 MusicDB.prototype.findAlbum = function(searchId) { 
   for (i = 0; i < newDb.albums.length; i++) {
     if (newDb.albums[i].albumId != undefined && newDb.albums[i].albumId == searchId) {
@@ -78,26 +78,25 @@ MusicDB.prototype.findAlbumList = function(artistId) {
   const albumList = [];
   for (i = 0; i < newDb.albums.length; i++) {
     if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
-      console.log(this.albums[i]);
       albumList.push(this.albums[i]);
     };
   };
   return albumList;
 };
 
-//working below, testing down
 MusicDB.prototype.findAlbumListByName = function(artistName) {
   let artId = newDb.findArtistIdByName(artistName);
   let albumList = newDb.findAlbumList(artId);
   return albumList;
 };
 
-MusicDB.prototype.deleteArtist = function(id) {
-  if (this.artists[id] === undefined) {
+MusicDB.prototype.deleteArtist = function(searchId) {
+  artistIndex = this.findArtistIndex(searchId);
+  if (this.artists[artistIndex] === undefined) {
     return false;
   }
-  delete this.artists[id];
-  this.deleteArtistAlbums(id);
+  delete this.artists[artistIndex];
+  this.deleteArtistAlbums(artistIndex);
   return true;
 }
 
@@ -138,8 +137,8 @@ function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
 
 
 function showArtist(artistId) {
-  currentDisplayArtistId = artistId;
-  const artistElement = newDb.findArtistElement(artistId);
+  currentDisplayArtistId = artistIndex;
+  const artistElement = newDb.findArtistIndex(artistId);
   $("#show-artist").show();
   $(".show-artist-name").html(newDb.artists[artistElement].artist);
   $(".show-artist-genre").html(newDb.artists[artistElement].artistGenre);
@@ -185,7 +184,6 @@ function showAlbumDetails(albumId) {
 function attachArtistListeners() {
   $("ul#artists").on("click", "li", function() {
     showArtist(this.id);
-    console.log(this.id);
     $("#show-albums").show();
     showAlbum(this.id);
   });
@@ -238,7 +236,7 @@ $(document).ready(function() {
   $("form#new-album").submit(function(event) {
     event.preventDefault();
     let artistId = parseInt(currentDisplayArtistId);
-    let indexElement = newDb.findArtistElement(artistId);
+    let indexElement = newDb.findArtistIndex(artistId);
     let albumArtist = newDb.artists[indexElement].artist;
     let inputAlbumName = $("input#new-album-name").val();
     let inputAlbumYear = $("input#new-album-year").val();
