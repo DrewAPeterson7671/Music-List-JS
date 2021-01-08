@@ -80,6 +80,22 @@ MusicDB.prototype.findArtistByAlbumId = function(albumId) {
   return false;
 }
 
+//Working here
+MusicDB.prototype.sortArtistsAlpha = function() {
+  newDb.artists.sort(function(a, b) {
+    let myReg = /^The |^A /i;
+    let indexA = a.artist.replace(myReg, "");
+    let indexB = b.artist.replace(myReg, "");
+    if (indexA < indexB) {
+      return -1;
+    }
+    if (indexA > indexB) {
+      return 1;
+    }
+  });
+  return newDb.artists;
+}
+
 MusicDB.prototype.findAlbumList = function(artistId) {
   const albumList = [];
   for (i = 0; i < newDb.albums.length; i++) {
@@ -159,6 +175,7 @@ function showArtist(artistId) {
 function displayArtistList() {
   let artistList = $("ul#artists");
   let htmlForArtists = "";
+  newDb.sortArtistsAlpha();
   newDb.artists.forEach(function(artist) {
     htmlForArtists += "<li id=" + artist.artistId + ">" + artist.artist + "</li>";
   })
@@ -210,7 +227,6 @@ function attachArtistListeners() {
   });
   $("ul#show-albums").on("click", "li", function() {
     showAlbumDetails(this.id);
-    console.log(this.id + " the album id by the click handler")
     $("#show-album-details").show();
   });
   $("#albumButtons").on("click", ".showAlbumDetail", function() {
@@ -261,14 +277,34 @@ $(document).ready(function() {
 })
 
 
-let artist1 = new Artist("REM", "Alternative");
-let artist2 = new Artist("The Cure", "Alternative");
-let artist3 = new Artist("The Damned", "Punk");
-let artist4 = new Artist("Tool", "NuMetal");
+let artist1 = new Artist("The Damned", "Punk");
+let artist2 = new Artist("Tool", "NuMetal");
+let artist3 = new Artist("REM", "Alternative");
+let artist4 = new Artist("The Cure", "Alternative");
+let artist5 = new Artist("Metallica", "Heavey Metal");
+let artist6 = new Artist("The Clash", "Punk");
+let artist7 = new Artist("Pink Floyd", "Classic Rock");
+let artist8 = new Artist("Otis Redding", "R&B");
+let artist9 = new Artist("Ghostland Observatory", "Alternative");
+let artist10 = new Artist("Sound Tribe Sector 9", "Jam Band");
+let artist11 = new Artist("A Perfect Circle", "Alternative");
+let artist12 = new Artist("Rage Against The Machine", "Alternative");
+let artist13 = new Artist("Cage The Elephant", "Alternative");
+let artist14 = new Artist("A Silent Film", "Alternative");
 newDb.addArtist(artist1);
 newDb.addArtist(artist2);
 newDb.addArtist(artist3);
 newDb.addArtist(artist4);
+newDb.addArtist(artist5);
+newDb.addArtist(artist6);
+newDb.addArtist(artist7);
+newDb.addArtist(artist8);
+newDb.addArtist(artist9);
+newDb.addArtist(artist10);
+newDb.addArtist(artist11);
+newDb.addArtist(artist12);
+newDb.addArtist(artist13);
+newDb.addArtist(artist14);
 let album1 = new Album("REM", "Out of Time", 1991, "Alternative", "Studio");
 let album2 = new Album("REM", "Eponymous", 1988, "Alternative", "Compilation");
 let album3 = new Album("The Cure", "Seventeen Seconds", 1980, "Alternative", "Studio");
