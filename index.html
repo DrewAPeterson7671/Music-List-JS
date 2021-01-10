@@ -5,14 +5,20 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet" type="text/css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="js/scripts.js"></script>
+  <script src="src/main.js"></script>
+  <script src="src/music-artist.js"></script>
 </head>
 <body>
   <div class="container">
     <hr>
     <h1>Music Collection</h1>
     <hr>
+    <h2>Artists</h2>
+    <ul id="artists">
+    </ul>
+    <hr>
     <h2>Add Artist</h2>
+    <div class="add-artist">
       <form id="new-artist">
         <label for="new-artist-name">Artist Name</label>
         <input type="text" id="new-artist-name">
@@ -20,12 +26,9 @@
         <label for="new-artist-genre">Artist Genre</label>
         <input type="text" id="new-artist-genre">
         <br>
-        <button type="submit">Add</button>     
-      </form>
-    <hr>
-    <h2>Artists</h2>
-      <ul id="artists">
-      </ul>
+        <button type="submit">Add Artist</button>     
+     </div> 
+    </form>
     <div id="show-artist">
       <hr>
       <h2>Artist Details</h2>
@@ -35,11 +38,11 @@
       </ul>
       <div id="buttons">
       </div>
-    <div id="show-album-details">
-      <h2>Album Details</h2>
-      <p>Album: <span class="show-album-name"></span></p>
-      <p>Year: <span class="show-album-year"></span></p>
-      <p>Genre: <span class="show-album-genre"></span></p>
+      <div id="show-album-details">
+        <h2>Album Details</h2>
+        <p>Album: <span class="show-album-name"></span></p>
+        <p>Year: <span class="show-album-year"></span></p>
+        <p>Genre: <span class="show-album-genre"></span></p>
       <p>Album Type: <span class="show-album-type"></span></p>
       <div id="albumButtons">
       </div>
