@@ -1,3 +1,6 @@
+import { MusicDB, Artist, Album } from './music-artist.js';
+import './css/styles.css';
+
 function showArtist(artistId) {
   currentDisplayArtistId = artistId;
   const artistElement = newDb.findArtistIndex(artistId);
@@ -17,7 +20,7 @@ function displayArtistList() {
   newDb.sortArtistsAlpha();
   newDb.artists.forEach(function(artist) {
     htmlForArtists += "<li id=" + artist.artistId + ">" + artist.artist + "</li>";
-  })
+  });
   artistList.html(htmlForArtists);
 }
 
@@ -79,7 +82,7 @@ function attachArtistListeners() {
 }
 
 
-let newDb = new MusicDB();
+export let newDb = new MusicDB();
 let currentDisplayArtistId = "";
 
 $(document).ready(function() {
@@ -94,7 +97,7 @@ $(document).ready(function() {
     let newArtist = new Artist(inputArtistName, inputArtistGenre);
     newDb.addArtist(newArtist);
     displayArtistList();
-  })
+  });
 
   $("form#new-album").submit(function(event) {
     event.preventDefault();
@@ -112,8 +115,8 @@ $(document).ready(function() {
     let newAlbum = new Album(albumArtist, inputAlbumName, inputAlbumYear, inputAlbumGenre, inputAlbumType);
     newDb.addAlbum(newAlbum);
     showAlbum(currentDisplayArtistId);
-  })    
-})
+  });    
+});
 
 
 let artist1 = new Artist("The Damned", "Punk");
