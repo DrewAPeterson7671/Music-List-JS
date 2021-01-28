@@ -25,7 +25,7 @@ MusicDB.prototype.addArtist = function(artist) {
 
 MusicDB.prototype.addAlbum = function(album) {
   album.albumId = this.assignAlbumId();
-  album.artistId = newDb.findArtistIdByName(album.albumArtist);
+  album.artistId = this.findArtistIdByName(album.albumArtist);
   this.albums.push(album);
 };
 
@@ -54,7 +54,7 @@ MusicDB.prototype.findAlbum = function(searchId) {
   return false;
 };
 
-// ES15 newDb.artists.find( ({ artistId }) => artistId === 2);
+// ES2015 newDb.artists.find( ({ artistId }) => artistId === 2);
 
 MusicDB.prototype.findArtistIndexByName = function(artistName) {
   for (let i = 0; i < newDb.artists.length; i++) {
@@ -65,7 +65,7 @@ MusicDB.prototype.findArtistIndexByName = function(artistName) {
 };
 
 MusicDB.prototype.findArtistIdByName = function(artistName) {
-  for (let i = 0; i < newDb.artists.length; i++) {
+  for (let i = 0; i < this.artists.length; i++) {
     if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
       return this.artists[i].artistId;
     }
