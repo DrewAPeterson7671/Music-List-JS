@@ -30,8 +30,8 @@ MusicDB.prototype.addAlbum = function(album) {
 };
 
 MusicDB.prototype.findArtistIndex = function(searchId) { 
-  for (let i = 0; i < newDb.artists.length; i++) {
-    if (newDb.artists[i] != undefined && newDb.artists[i].artistId == searchId) {
+  for (let i = 0; i < this.artists.length; i++) {
+    if (this.artists[i] != undefined && this.artists[i].artistId == searchId) {
       return i;
     }
   }
