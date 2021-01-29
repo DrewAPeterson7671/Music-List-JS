@@ -98,11 +98,48 @@ describe(MusicDB, () => {
   test('should find an artistId by albumId with findArtistByAlbumId', () => {
     expect(testDb3.findArtistByAlbumId(1)).toEqual(1);
   });
-  test('should sort the artists alphabetically with sortArtistsAlpha', () => {
+
+  beforeEach(() => {
     let testArtist4 = new Artist("ABBA", "Disco");
     testDb3.addArtist(testArtist4);
-    console.log(testDb3.artists.sortArtistsAlpha);
+    let testAlbum4 = new Album("Buddy Holly", "The Chirping Crickets", "1957", "Rock & Roll", "Studio");
+    let testAlbum5 = new Album("ABBA", "Gold Greatest Hits", "1992", "Disco", "Compilation")
+    testDb3.addAlbum(testAlbum4);
+    testDb3.addAlbum(testAlbum5);
+  });
+
+
+  test('should sort the artists alphabetically with sortArtistsAlpha', () => {
     expect(testDb3.sortArtistsAlpha()).toEqual([{"artist": "ABBA", "artistGenre": "Disco", "artistId": 2}, {"artist": "Buddy Holly", "artistGenre": "Rock & Roll", "artistId": 1}]);
+  });
+  test('should sort the artists alphabetically and handling the word the correctly', () => {
+    let testArtist5 = new Artist("Yes", "Classic Rock");
+    testDb3.addArtist(testArtist5);
+    let testArtist6 = new Artist("The Cure", "Alternative");
+    testDb3.addArtist(testArtist6);
+    expect(testDb3.sortArtistsAlpha()).toEqual([{"artist": "ABBA", "artistGenre": "Disco", "artistId": 2}, {"artist": "Buddy Holly", "artistGenre": "Rock & Roll", "artistId": 1}, {"artist": "The Cure", "artistGenre": "Alternative", "artistId": 4}, {"artist": "Yes", "artistGenre": "Classic Rock", "artistId": 3}]);
+  });
+  test('should sort the artists alphabetically and handling the word a correctly', () => {
+    let testArtist5 = new Artist("Yes", "Classic Rock");
+    testDb3.addArtist(testArtist5);
+    let testArtist6 = new Artist("A Perfect Circle", "Alternative");
+    testDb3.addArtist(testArtist6);
+    expect(testDb3.sortArtistsAlpha()).toEqual([{"artist": "ABBA", "artistGenre": "Disco", "artistId": 2}, {"artist": "Buddy Holly", "artistGenre": "Rock & Roll", "artistId": 1}, {"artist": "A Perfect Circle", "artistGenre": "Alternative", "artistId": 4}, {"artist": "Yes", "artistGenre": "Classic Rock", "artistId": 3}]);
+  });
+  test('should find all the albums of an artist by artistId and put them in an array', () => {
+    expect(testDb3.findAlbumList(1)[0].albumName).toEqual("That'll Be The Day");
+    expect(testDb3.findAlbumList(1)[1].albumName).toEqual('The Chirping Crickets');
+  });
+  test('should find all the albums of an artist and put them in an array and not add any other artists albums', () => {
+    expect(testDb3.albums.length).toEqual(3);
+    expect(testDb3.findAlbumList(1).length).toEqual(2);
+  });
+  test('should find all the albums of an artist by Artist name and put them in an array', () => {
+    expect(testDb3.findAlbumListByName("Buddy Holly").length).toEqual(2);
+  });
+  test('should find all the albums of an artist by Artist name and put them in an array and verify album names', () => {
+    expect(testDb3.findAlbumList(1)[0].albumName).toEqual("That'll Be The Day");
+    expect(testDb3.findAlbumList(1)[1].albumName).toEqual('The Chirping Crickets');
   });
 });
 
