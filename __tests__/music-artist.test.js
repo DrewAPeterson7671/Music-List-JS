@@ -28,54 +28,6 @@ describe(MusicDB, () => {
   });
 });
 
-describe(Artist, () => {
-  let testDb1;
-  let testArtist1;
-
-  beforeEach(() => {
-    testDb1 = new MusicDB();
-    testArtist1 = new Artist("Yes", "Classic Rock");
-  });
-
-  test('should create a new Artist object that is not null', () => {
-    expect(testArtist1).not.toBeNull();
-  });
-  test('should create a new Artist object that is not undefined', () => {
-    expect(testArtist1).not.toBeUndefined();
-  });
-  test('should create a new Artist object with 2 arguments passed in', () => {
-    expect(testArtist1.artist).toEqual("Yes");
-    expect(testArtist1.artistGenre).toEqual("Classic Rock");
-  });    
-});
-
-describe(Album, () => {
-  let testDb2;
-  let testArtist2;
-  let testAlbum;
-
-  beforeEach(() => {
-    testDb2 = new MusicDB();
-    testArtist2 = new Artist("Yes", "Classic Rock");
-    testAlbum = new Album("Yes", "90125", "1983", "Classic Rock", "Studio");
-  });
-
-  test('should create a new Album object that is not null', () => {
-    expect(testAlbum).not.toBeNull();
-  });
-  test('should create a new Album object that is not undefined', () => {
-    expect(testAlbum).not.toBeUndefined();
-  });
-  test('should create a new Album object with 5 arguments passed in', () => {
-    expect(testAlbum.albumArtist).toEqual("Yes");
-    expect(testAlbum.albumName).toEqual("90125");
-    expect(testAlbum.albumYear).toEqual("1983");
-    expect(testAlbum.albumGenre).toEqual("Classic Rock");
-    expect(testAlbum.albumType).toEqual("Studio");
-    expect(testAlbum.albumRating).toEqual("");
-  });
-});
-
 describe(MusicDB, () => {
   let testDb4;
 
@@ -130,5 +82,74 @@ describe(MusicDB, () => {
   });
   test('should create a new Artist and Artist and verify findArtistIndex finds the artists index in the artists array', () => {
     expect(testDb3.findArtistIndex(1)).toEqual(0);
+  });
+  test('should create a new Artist verify findArtistId finds the artistsId artists array position', () => {
+    expect(testDb3.findArtistId(0)).toEqual(1);
+  });
+  test('should find an album by albumId', () => {
+    expect(testDb3.findAlbum(1).albumId).toEqual(1);
+  });
+  test('should find the arist array index of an artist by findArtistIndexByName', () => {
+    expect(testDb3.findArtistIndexByName("Buddy Holly")).toEqual(0);
+  });
+  test('should find an artistId by name with findArtistIdByName', () => {
+    expect(testDb3.findArtistIdByName("Buddy Holly")).toEqual(1);
+  });
+  test('should find an artistId by albumId with findArtistByAlbumId', () => {
+    expect(testDb3.findArtistByAlbumId(1)).toEqual(1);
+  });
+  test('should sort the artists alphabetically with sortArtistsAlpha', () => {
+    let testArtist4 = new Artist("ABBA", "Disco");
+    testDb3.addArtist(testArtist4);
+    console.log(testDb3.artists.sortArtistsAlpha);
+    expect(testDb3.sortArtistsAlpha()).toEqual([{"artist": "ABBA", "artistGenre": "Disco", "artistId": 2}, {"artist": "Buddy Holly", "artistGenre": "Rock & Roll", "artistId": 1}]);
+  });
+});
+
+describe(Artist, () => {
+  let testDb1;
+  let testArtist1;
+
+  beforeEach(() => {
+    testDb1 = new MusicDB();
+    testArtist1 = new Artist("Yes", "Classic Rock");
+  });
+
+  test('should create a new Artist object that is not null', () => {
+    expect(testArtist1).not.toBeNull();
+  });
+  test('should create a new Artist object that is not undefined', () => {
+    expect(testArtist1).not.toBeUndefined();
+  });
+  test('should create a new Artist object with 2 arguments passed in', () => {
+    expect(testArtist1.artist).toEqual("Yes");
+    expect(testArtist1.artistGenre).toEqual("Classic Rock");
+  });    
+});
+
+describe(Album, () => {
+  let testDb2;
+  let testArtist2;
+  let testAlbum;
+
+  beforeEach(() => {
+    testDb2 = new MusicDB();
+    testArtist2 = new Artist("Yes", "Classic Rock");
+    testAlbum = new Album("Yes", "90125", "1983", "Classic Rock", "Studio");
+  });
+
+  test('should create a new Album object that is not null', () => {
+    expect(testAlbum).not.toBeNull();
+  });
+  test('should create a new Album object that is not undefined', () => {
+    expect(testAlbum).not.toBeUndefined();
+  });
+  test('should create a new Album object with 5 arguments passed in', () => {
+    expect(testAlbum.albumArtist).toEqual("Yes");
+    expect(testAlbum.albumName).toEqual("90125");
+    expect(testAlbum.albumYear).toEqual("1983");
+    expect(testAlbum.albumGenre).toEqual("Classic Rock");
+    expect(testAlbum.albumType).toEqual("Studio");
+    expect(testAlbum.albumRating).toEqual("");
   });
 });

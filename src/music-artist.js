@@ -1,3 +1,4 @@
+
 export function MusicDB() {
   this.artists = [];
   this.albums = [];
