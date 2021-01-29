@@ -1,6 +1,3 @@
-// import { newDb } from './main.js';
-
-
 export function MusicDB() {
   this.artists = [];
   this.albums = [];
@@ -39,16 +36,16 @@ MusicDB.prototype.findArtistIndex = function(searchId) {
 };
 
 MusicDB.prototype.findArtistId = function(searchIndex) {
-  if (newDb.artists[searchIndex] != undefined) {
-    return newDb.artists[searchIndex].artistId;
+  if (this.artists[searchIndex] != undefined) {
+    return this.artists[searchIndex].artistId;
   }
   return false;
 };
 
 MusicDB.prototype.findAlbum = function(searchId) { 
-  for (let i = 0; i < newDb.albums.length; i++) {
-    if (newDb.albums[i] != undefined && newDb.albums[i].albumId == searchId) {
-      return newDb.albums[i];
+  for (let i = 0; i < this.albums.length; i++) {
+    if (this.albums[i] != undefined && this.albums[i].albumId == searchId) {
+      return this.albums[i];
     }
   }
   return false;
@@ -57,7 +54,7 @@ MusicDB.prototype.findAlbum = function(searchId) {
 // ES2015 newDb.artists.find( ({ artistId }) => artistId === 2);
 
 MusicDB.prototype.findArtistIndexByName = function(artistName) {
-  for (let i = 0; i < newDb.artists.length; i++) {
+  for (let i = 0; i < this.artists.length; i++) {
     if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
       return i;
     }
@@ -73,9 +70,9 @@ MusicDB.prototype.findArtistIdByName = function(artistName) {
 };
 
 MusicDB.prototype.findArtistByAlbumId = function(albumId) { 
-  for (let i = 0; i < newDb.albums.length; i++) {
-    if (newDb.albums[i].albumId != undefined && newDb.albums[i].albumId == albumId) {
-      return newDb.albums[i].artistId;
+  for (let i = 0; i < this.albums.length; i++) {
+    if (this.albums[i].albumId != undefined && this.albums[i].albumId == albumId) {
+      return this.albums[i].artistId;
     }
   }
   return false;
@@ -83,7 +80,7 @@ MusicDB.prototype.findArtistByAlbumId = function(albumId) {
 
 //Working here
 MusicDB.prototype.sortArtistsAlpha = function() {
-  newDb.artists.sort(function(a, b) {
+  this.artists.sort(function(a, b) {
     let myReg = /^The |^A /i;
     let indexA = a.artist.replace(myReg, "");
     let indexB = b.artist.replace(myReg, "");
@@ -94,12 +91,12 @@ MusicDB.prototype.sortArtistsAlpha = function() {
       return 1;
     }
   });
-  return newDb.artists;
+  return this.artists;
 };
 
 MusicDB.prototype.findAlbumList = function(artistId) {
   const albumList = [];
-  for (let i = 0; i < newDb.albums.length; i++) {
+  for (let i = 0; i < this.albums.length; i++) {
     if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
       albumList.push(this.albums[i]);
     }
@@ -108,8 +105,8 @@ MusicDB.prototype.findAlbumList = function(artistId) {
 };
 
 MusicDB.prototype.findAlbumListByName = function(artistName) {
-  let artId = newDb.findArtistIdByName(artistName);
-  let albumList = newDb.findAlbumList(artId);
+  let artId = this.findArtistIdByName(artistName);
+  let albumList = this.findAlbumList(artId);
   return albumList;
 };
 
@@ -124,7 +121,7 @@ MusicDB.prototype.deleteArtist = function(searchId) {
 };
 
 MusicDB.prototype.deleteArtistAlbums = function(artistId) {
-  for (let i = 0; i < newDb.albums.length; i++) {
+  for (let i = 0; i < this.albums.length; i++) {
     if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
       delete this.albums[i];
     }
@@ -133,7 +130,7 @@ MusicDB.prototype.deleteArtistAlbums = function(artistId) {
 };
 
 MusicDB.prototype.deleteAlbum = function(albumId) {
-  for (let i = 0; i < newDb.albums.length; i++) {
+  for (let i = 0; i < this.albums.length; i++) {
     if (this.albums[i] != undefined && this.albums[i].albumId == albumId) {
       delete this.albums[i];
       return true;
