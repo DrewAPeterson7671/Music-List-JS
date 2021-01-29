@@ -141,6 +141,21 @@ describe(MusicDB, () => {
     expect(testDb3.findAlbumList(1)[0].albumName).toEqual("That'll Be The Day");
     expect(testDb3.findAlbumList(1)[1].albumName).toEqual('The Chirping Crickets');
   });
+  test('should delete the artist by artist index in the array', () => {
+    testDb3.deleteArtist(2);
+    expect(testDb3.artists).toEqual([{"artist": "Buddy Holly", "artistGenre": "Rock & Roll", "artistId": 1}]);
+  });
+  test('should delete the artist and also all their albums', () => {
+    testDb3.deleteArtist(1);
+    expect(testDb3.albums.length).toEqual(1);
+    expect(testDb3.albums[0].albumName).toEqual("Gold Greatest Hits");
+  });
+  test('should delete an album and only one album', () => {
+    testDb3.deleteAlbum(1);
+    expect(testDb3.albums.length).toEqual(2);
+    expect(testDb3.albums[0].albumName).toEqual("The Chirping Crickets");
+    expect(testDb3.albums[1].albumName).toEqual("Gold Greatest Hits");
+  });
 });
 
 describe(Artist, () => {

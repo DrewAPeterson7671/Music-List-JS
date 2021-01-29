@@ -127,6 +127,8 @@ MusicDB.prototype.deleteArtistAlbums = function(artistId) {
       delete this.albums[i];
     }
   }
+  this.artists = this.artists.filter(val => val);
+  this.albums = this.albums.filter(val => val);
   return true;
 };
 
@@ -134,10 +136,9 @@ MusicDB.prototype.deleteAlbum = function(albumId) {
   for (let i = 0; i < this.albums.length; i++) {
     if (this.albums[i] != undefined && this.albums[i].albumId == albumId) {
       delete this.albums[i];
-      return true;
     }
   }
-  return false;
+  return this.albums = this.albums.filter(val => val);
 };
 
 export function Artist(artist, artistGenre) {
