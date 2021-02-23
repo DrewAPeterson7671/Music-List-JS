@@ -50,21 +50,14 @@ export class MusicDB {
 
   findArtistIdByName(artistName) {
     if (!artistName || artistName.length == 0) return false;
-    return this.artists.findIndex(object => object.artist == artistName);
-    // for (let i = 0; i < this.artists.length; i++) {
-    //   if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
-    //     return this.artists[i].artistId;
-    //   }
-    // }
+    let foundIndex = this.artists.findIndex(object => object.artist == artistName);
+    return this.artists[foundIndex].artistId;
   }
 
-  findArtistByAlbumId(albumId) { 
-    for (let i = 0; i < this.albums.length; i++) {
-      if (this.albums[i].albumId != undefined && this.albums[i].albumId == albumId) {
-        return this.albums[i].artistId;
-      }
-    }
-    return false;
+  findArtistByAlbumId(albumId) {
+    if (!albumId) return false; 
+    let foundIndex = this.albums.findIndex(object => object.albumId == albumId); 
+    return this.albums[foundIndex].artistId;
   }
 
   sortArtistsAlpha() {
@@ -81,6 +74,8 @@ export class MusicDB {
     });
     return this.artists;
   }
+
+// Refactor left off here  
 
   findAlbumList(artistId) {
     const albumList = [];
