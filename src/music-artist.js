@@ -29,46 +29,33 @@ export class MusicDB {
   }
 
   findArtistIndex(searchId) { 
-    for (let i = 0; i < this.artists.length; i++) {
-      if (this.artists[i] != undefined && this.artists[i].artistId == searchId) {
-        return i;
-      }
-    }
-    return false;
+    if (!searchId) return false;
+    return this.artists.findIndex(object => object.artistId == searchId);
   }
 
   findArtistId(searchIndex) {
-    if (this.artists[searchIndex] != undefined) {
-      return this.artists[searchIndex].artistId;
-    }
-    return false;
+    if (!this.artists[searchIndex]) return false;
+    return this.artists[searchIndex].artistId;
   }
 
-  findAlbum(searchId) { 
-    for (let i = 0; i < this.albums.length; i++) {
-      if (this.albums[i] != undefined && this.albums[i].albumId == searchId) {
-        return this.albums[i];
-      }
-    }
-    return false;
+  findAlbum(searchId) {
+    if (!searchId) return false; 
+    return this.albums.find(object => object.albumId == searchId);
   }
-
-  // ES2015 newDb.artists.find( ({ artistId }) => artistId === 2);
 
   findArtistIndexByName(artistName) {
-    for (let i = 0; i < this.artists.length; i++) {
-      if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
-        return i;
-      }
-    }
+    if (!artistName || artistName.length == 0) return false;
+    return this.artists.findIndex(object => object.artist == artistName);
   }
 
   findArtistIdByName(artistName) {
-    for (let i = 0; i < this.artists.length; i++) {
-      if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
-        return this.artists[i].artistId;
-      }
-    }
+    if (!artistName || artistName.length == 0) return false;
+    return this.artists.findIndex(object => object.artist == artistName);
+    // for (let i = 0; i < this.artists.length; i++) {
+    //   if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
+    //     return this.artists[i].artistId;
+    //   }
+    // }
   }
 
   findArtistByAlbumId(albumId) { 

@@ -81,16 +81,22 @@ describe(MusicDB, () => {
     expect(testDb3.albums[0].albumRating).toEqual("")
   });
   test('should create a new Artist and Artist and verify findArtistIndex finds the artists index in the artists array', () => {
-    expect(testDb3.findArtistIndex(1)).toEqual(0);
+    expect(testDb3.findArtistIndex(2)).toEqual(1);
   });
   test('should create a new Artist verify findArtistId finds the artistsId artists array position', () => {
-    expect(testDb3.findArtistId(0)).toEqual(1);
+    expect(testDb3.findArtistId(1)).toEqual(2);
   });
   test('should find an album by albumId', () => {
     expect(testDb3.findAlbum(1).albumId).toEqual(1);
   });
   test('should find the arist array index of an artist by findArtistIndexByName', () => {
     expect(testDb3.findArtistIndexByName("Buddy Holly")).toEqual(0);
+  });
+  test('should return false finding artist by blank value findArtistIndexByName', () => {
+    expect(testDb3.findArtistIndexByName("")).toEqual(false);
+  });
+  test('should return false finding artist by nil value findArtistIndexByName', () => {
+    expect(testDb3.findArtistIndexByName()).toEqual(false);
   });
   test('should find an artistId by name with findArtistIdByName', () => {
     expect(testDb3.findArtistIdByName("Buddy Holly")).toEqual(1);
