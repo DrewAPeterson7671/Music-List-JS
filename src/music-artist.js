@@ -1,156 +1,148 @@
 
-export function MusicDB() {
-  this.artists = [];
-  this.albums = [];
-  this.artistId = 0;
-  this.albumId = 0;
-}
-
-MusicDB.prototype.assignArtistId = function() {
-  this.artistId += 1;
-  return this.artistId;
-};
-
-MusicDB.prototype.assignAlbumId = function() {
-  this.albumId += 1;
-  return this.albumId;
-};
-
-MusicDB.prototype.addArtist = function(artist) {
-  artist.artistId = this.assignArtistId();
-  this.artists.push(artist);
-};
-
-MusicDB.prototype.addAlbum = function(album) {
-  album.albumId = this.assignAlbumId();
-  album.artistId = this.findArtistIdByName(album.albumArtist);
-  this.albums.push(album);
-};
-
-MusicDB.prototype.findArtistIndex = function(searchId) { 
-  for (let i = 0; i < this.artists.length; i++) {
-    if (this.artists[i] != undefined && this.artists[i].artistId == searchId) {
-      return i;
-    }
+export class MusicDB {
+  constructor() {
+    this.artists = [];
+    this.albums = [];
+    this.artistId = 0;
+    this.albumId = 0;
   }
-  return false;
-};
 
-MusicDB.prototype.findArtistId = function(searchIndex) {
-  if (this.artists[searchIndex] != undefined) {
+  assignArtistId() {
+    this.artistId += 1;
+    return this.artistId;
+  }
+
+  assignAlbumId() {
+    this.albumId += 1;
+    return this.albumId;
+  }
+
+  addArtist(artist) {
+    artist.artistId = this.assignArtistId();
+    this.artists.push(artist);
+  }
+
+  addAlbum(album) {
+    album.albumId = this.assignAlbumId();
+    album.artistId = this.findArtistIdByName(album.albumArtist);
+    this.albums.push(album);
+  }
+
+  findArtistIndex(searchId) { 
+    if (!searchId) return false;
+    return this.artists.findIndex(object => object.artistId == searchId);
+  }
+
+  findArtistId(searchIndex) {
+    if (!this.artists[searchIndex]) return false;
     return this.artists[searchIndex].artistId;
   }
-  return false;
-};
 
-MusicDB.prototype.findAlbum = function(searchId) { 
-  for (let i = 0; i < this.albums.length; i++) {
-    if (this.albums[i] != undefined && this.albums[i].albumId == searchId) {
-      return this.albums[i];
-    }
+  findAlbum(searchId) {
+    if (!searchId) return false; 
+    return this.albums.find(object => object.albumId == searchId);
   }
-  return false;
-};
 
-// ES2015 newDb.artists.find( ({ artistId }) => artistId === 2);
-
-MusicDB.prototype.findArtistIndexByName = function(artistName) {
-  for (let i = 0; i < this.artists.length; i++) {
-    if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
-      return i;
-    }
+  findArtistIndexByName(artistName) {
+    if (!artistName || artistName.length == 0) return false;
+    return this.artists.findIndex(object => object.artist == artistName);
   }
-};
 
-MusicDB.prototype.findArtistIdByName = function(artistName) {
-  for (let i = 0; i < this.artists.length; i++) {
-    if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
-      return this.artists[i].artistId;
-    }
+  findArtistIdByName(artistName) {
+    if (!artistName || artistName.length == 0) return false;
+    return this.artists.findIndex(object => object.artist == artistName);
+    // for (let i = 0; i < this.artists.length; i++) {
+    //   if (this.artists[i] != undefined && this.artists[i].artist === artistName) {
+    //     return this.artists[i].artistId;
+    //   }
+    // }
   }
-};
 
-MusicDB.prototype.findArtistByAlbumId = function(albumId) { 
-  for (let i = 0; i < this.albums.length; i++) {
-    if (this.albums[i].albumId != undefined && this.albums[i].albumId == albumId) {
-      return this.albums[i].artistId;
+  findArtistByAlbumId(albumId) { 
+    for (let i = 0; i < this.albums.length; i++) {
+      if (this.albums[i].albumId != undefined && this.albums[i].albumId == albumId) {
+        return this.albums[i].artistId;
+      }
     }
-  }
-  return false;
-};
-
-//Working here
-MusicDB.prototype.sortArtistsAlpha = function() {
-  this.artists.sort(function(a, b) {
-    let myReg = /^The |^A /i;
-    let indexA = a.artist.replace(myReg, "");
-    let indexB = b.artist.replace(myReg, "");
-    if (indexA < indexB) {
-      return -1;
-    }
-    if (indexA > indexB) {
-      return 1;
-    }
-  });
-  return this.artists;
-};
-
-MusicDB.prototype.findAlbumList = function(artistId) {
-  const albumList = [];
-  for (let i = 0; i < this.albums.length; i++) {
-    if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
-      albumList.push(this.albums[i]);
-    }
-  }
-  return albumList;
-};
-
-MusicDB.prototype.findAlbumListByName = function(artistName) {
-  let artId = this.findArtistIdByName(artistName);
-  let albumList = this.findAlbumList(artId);
-  return albumList;
-};
-
-MusicDB.prototype.deleteArtist = function(searchId) {
-  let artistIndex = this.findArtistIndex(searchId);
-  if (this.artists[artistIndex] === undefined) {
     return false;
   }
-  delete this.artists[artistIndex];
-  this.deleteArtistAlbums(searchId);
-  return true;
-};
 
-MusicDB.prototype.deleteArtistAlbums = function(artistId) {
-  for (let i = 0; i < this.albums.length; i++) {
-    if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
-      delete this.albums[i];
-    }
+  sortArtistsAlpha() {
+    this.artists.sort(function(a, b) {
+      let myReg = /^The |^A /i;
+      let indexA = a.artist.replace(myReg, "");
+      let indexB = b.artist.replace(myReg, "");
+      if (indexA < indexB) {
+        return -1;
+      }
+      if (indexA > indexB) {
+        return 1;
+      }
+    });
+    return this.artists;
   }
-  this.artists = this.artists.filter(val => val);
-  this.albums = this.albums.filter(val => val);
-  return true;
-};
 
-MusicDB.prototype.deleteAlbum = function(albumId) {
-  for (let i = 0; i < this.albums.length; i++) {
-    if (this.albums[i] != undefined && this.albums[i].albumId == albumId) {
-      delete this.albums[i];
+  findAlbumList(artistId) {
+    const albumList = [];
+    for (let i = 0; i < this.albums.length; i++) {
+      if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
+        albumList.push(this.albums[i]);
+      }
     }
+    return albumList;
   }
-  return this.albums = this.albums.filter(val => val);
-};
 
-export function Artist(artist, artistGenre) {
-  this.artist = artist;
-  this.artistGenre = artistGenre;
+  findAlbumListByName(artistName) {
+    let artId = this.findArtistIdByName(artistName);
+    let albumList = this.findAlbumList(artId);
+    return albumList;
+  }
+
+  deleteArtist(searchId) {
+    let artistIndex = this.findArtistIndex(searchId);
+    if (this.artists[artistIndex] === undefined) {
+      return false;
+    }
+    delete this.artists[artistIndex];
+    this.deleteArtistAlbums(searchId);
+    return true;
+  }
+
+  deleteArtistAlbums(artistId) {
+    for (let i = 0; i < this.albums.length; i++) {
+      if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
+        delete this.albums[i];
+      }
+    }
+    this.artists = this.artists.filter(val => val);
+    this.albums = this.albums.filter(val => val);
+    return true;
+  }
+
+  deleteAlbum(albumId) {
+    for (let i = 0; i < this.albums.length; i++) {
+      if (this.albums[i] != undefined && this.albums[i].albumId == albumId) {
+        delete this.albums[i];
+      }
+    }
+    return this.albums = this.albums.filter(val => val);
+  }
 }
 
-export function Album(albumArtist, albumName, albumYear, albumGenre, albumType) {
-  this.albumArtist = albumArtist;
-  this.albumName = albumName;
-  this.albumYear = albumYear;
-  this.albumGenre = albumGenre;
-  this.albumType = albumType;
-  this.albumRating = "";
+export class Artist {
+  constructor(artist, artistGenre) {
+    this.artist = artist;
+    this.artistGenre = artistGenre;
+  }
+}
+
+export class Album {
+  constructor(albumArtist, albumName, albumYear, albumGenre, albumType) {
+    this.albumArtist = albumArtist;
+    this.albumName = albumName;
+    this.albumYear = albumYear;
+    this.albumGenre = albumGenre;
+    this.albumType = albumType;
+    this.albumRating = "";
+  }
 }
