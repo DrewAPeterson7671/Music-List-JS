@@ -78,12 +78,8 @@ export class MusicDB {
 // Refactor left off here  
 
   findAlbumList(artistId) {
-    const albumList = [];
-    for (let i = 0; i < this.albums.length; i++) {
-      if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
-        albumList.push(this.albums[i]);
-      }
-    }
+    if (!artistId) return false;
+    const albumList = this.albums.filter(object => object.artistId == artistId)
     return albumList;
   }
 
@@ -95,9 +91,7 @@ export class MusicDB {
 
   deleteArtist(searchId) {
     let artistIndex = this.findArtistIndex(searchId);
-    if (this.artists[artistIndex] === undefined) {
-      return false;
-    }
+    if (!this.artists[artistIndex]) return false;
     delete this.artists[artistIndex];
     this.deleteArtistAlbums(searchId);
     return true;
