@@ -75,11 +75,11 @@ export class MusicDB {
     return this.artists;
   }
 
-// Refactor left off here  
+  // Refactor left off here  
 
   findAlbumList(artistId) {
     if (!artistId) return false;
-    const albumList = this.albums.filter(object => object.artistId == artistId)
+    const albumList = this.albums.filter(object => object.artistId == artistId);
     return albumList;
   }
 
