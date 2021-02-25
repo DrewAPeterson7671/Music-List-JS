@@ -1,13 +1,23 @@
+body {
+  display: none;
+}
 ul {
   list-style-type: none;
+}
+.artist-details {
+  display: none;
+}
+.artist-section {
+  display: none;
 }
 #show-artist {
   display: none;
 }
-
 #show-add-albums {
   display: none;
 }
 #show-album-details {
   display: none;
 }
+
+
