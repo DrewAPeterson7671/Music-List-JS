@@ -6,9 +6,9 @@ import './css/styles.css';
 function showArtist(artistId) {
   currentDisplayArtistId = artistId;
   const artistElement = newDb.findArtistIndex(artistId);
-  $("#show-artist").show();
-  $("#show-albums").show();
-  $(".artist-section").hide();
+  // $("#show-artist").show();
+  // $("#show-albums").show();
+  // $(".artist-section").hide();
   $(".show-artist-name").html(newDb.artists[artistElement].artist);
   $(".show-artist-genre").html(newDb.artists[artistElement].artistGenre);
   let buttons = $("#buttons");
@@ -52,23 +52,38 @@ function showAlbumDetails(albumId) {
 }
 
 function attachArtistListeners() {
+  $("#home-nav").on("click", function() {
+    $(".artist-section").hide();
+    $(".add-artist").hide();
+    $("#show-artist").hide();
+    $(".artist-details").hide();
+  });
   $("#artists-nav").on("click", function() {
     $(".artist-section").show();
+    $(".add-artist").show();
     $(".artist-details").hide();
     // $("#show-albums").hide();
   });
   $("#artist-nav").on("click", function() {
+    $(".add-artist").hide();
+    if (!currentDisplayArtistId) {
+      $(".artist-section").show();
+      $(".artist-details").hide();
+      return;
+    }
     $(".artist-section").hide();
     $(".artist-details").show();
+    // $(".add-artist").show();
     showArtist(currentDisplayArtistId);
     showAlbum(currentDisplayArtistId);
     // $("#show-albums").hide();
   });
   $("ul#artists").on("click", "li", function() {
+    $(".artist-section").hide();
     $(".artist-details").show();
+    $("#show-albums").show();
     showArtist(this.id);
     showAlbum(this.id);
-    // $("#show-albums").show();
   });
   $("#buttons").on("click", ".deleteButton", function() {
     // $("#show-artist").hide();
@@ -103,9 +118,9 @@ export let newDb = new MusicDB();
 let currentDisplayArtistId = "";
 
 $(document).ready(function() {
+  $("body").show();
   displayArtistList();
   attachArtistListeners();
-  $(".artist-details").hide();
   $("form#new-artist").submit(function(event) {
     event.preventDefault();
     let inputArtistName = $("input#new-artist-name").val();
