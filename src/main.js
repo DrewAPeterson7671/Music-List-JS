@@ -88,6 +88,7 @@ function attachArtistListeners() {
     showArtist(currentDisplayArtistId);
     showAlbum(currentDisplayArtistId);
   });
+  // Doesn't display properly after delete and reselection
   $("ul#artists").on("click", "li", function() {
     $(".artists-list").hide();
     $(".artist-detail").show();
@@ -97,7 +98,9 @@ function attachArtistListeners() {
   });
   $("#buttons").on("click", ".deleteButton", function() {
     newDb.deleteArtist(this.id);
-    $(".artist-wrapper").hide();
+    $(".artist-detail").hide();
+    $("#show-albums").hide();
+    $("#show-album-details").hide();
     $(".artists-list").show();
     displayArtistList();
     currentDisplayArtistId = "";
@@ -107,7 +110,7 @@ function attachArtistListeners() {
     showAlbum(this.id);
   });
   $("#buttons").on("click", ".addAlbums", function() {
-    $("#show-add-albums").show();
+    $("#show-add-albums").toggle();
   });
   $("ul#show-albums").on("click", "li", function() {
     showAlbumDetails(this.id);
@@ -121,7 +124,7 @@ function attachArtistListeners() {
   $("#albumButtons").on("click", ".deleteAlbumButton", function() {
     $("#show-album-details").hide();
     newDb.deleteAlbum(this.id);
-    showAlbum(currentDisplayArtistId);
+    // showAlbum(currentDisplayArtistId);
     currentAlbumDisplay = false;
   });
 }
