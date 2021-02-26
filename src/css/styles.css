@@ -4,10 +4,10 @@ body {
 ul {
   list-style-type: none;
 }
-.artist-details {
+.artists-list {
   display: none;
 }
-.artist-section {
+.artist-detail {
   display: none;
 }
 #show-artist {
