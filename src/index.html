@@ -29,19 +29,19 @@
                 <a class="nav-link" id="artists-nav" href="#">Artists</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="artist-nav" href="#">Current Artist Details</a>
+                <a class="nav-link" id="artist-nav" href="#">Artist Details</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="artists-nav" href="#">Albums</a>
+                <a class="nav-link" id="artist-album-nav" href="#">Artist Albums</a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
     </div>
-    
+
     <div class="content-below-nav">
-      <div class="artist-section">
+      <div class="artists-list">
         <h2>Artists</h2>
         <ul id="artists">
         </ul>
@@ -63,13 +63,15 @@
       <div id="show-artist">
       </div>
 
-      <div class="artist-details">
-        <h2>Artist Details</h2>
-        <p>Artist: <span class="show-artist-name"></span></p>
-        <p>Genre: <span class="show-artist-genre"></span></p>
-        <ul id="show-albums">
-        </ul>
-        <div id="buttons">
+      <div class="artist-wrapper">
+        <div class="artist-detail">
+          <h2>Artist Details</h2>
+          <p>Artist: <span class="show-artist-name"></span></p>
+          <p>Genre: <span class="show-artist-genre"></span></p>
+          <ul id="show-albums">
+          </ul>
+          <div id="buttons">
+          </div>
         </div>
         <div id="show-album-details">
           <h2>Album Details</h2>
@@ -103,6 +105,7 @@
 
       <div class="show-all-albums">
       </div>  
+      <hr>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>

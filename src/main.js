@@ -1,14 +1,10 @@
 import { MusicDB, Artist, Album } from './music-artist.js';
 import $ from 'jquery';
-// import { Tooltip, Toast, Popover } from 'bootstrap';
 import './css/styles.css';
 
 function showArtist(artistId) {
   currentDisplayArtistId = artistId;
   const artistElement = newDb.findArtistIndex(artistId);
-  // $("#show-artist").show();
-  // $("#show-albums").show();
-  // $(".artist-section").hide();
   $(".show-artist-name").html(newDb.artists[artistElement].artist);
   $(".show-artist-genre").html(newDb.artists[artistElement].artistGenre);
   let buttons = $("#buttons");
@@ -40,7 +36,6 @@ function showAlbum(artistId) {
 
 function showAlbumDetails(albumId) {
   const albumDetail = newDb.findAlbum(albumId);
-  // $("show-album-details").show();
   $(".show-album-name").html(albumDetail.albumName);
   $(".show-album-year").html(albumDetail.albumYear);    
   $(".show-album-genre").html(albumDetail.albumGenre);  
@@ -53,63 +48,74 @@ function showAlbumDetails(albumId) {
 
 function attachArtistListeners() {
   $("#home-nav").on("click", function() {
-    $(".artist-section").hide();
+    $(".artists-list").hide();
     $(".add-artist").hide();
     $("#show-artist").hide();
-    $(".artist-details").hide();
+    $(".artist-wrapper").hide();
   });
   $("#artists-nav").on("click", function() {
-    $(".artist-section").show();
+    $(".artists-list").show();
     $(".add-artist").show();
-    $(".artist-details").hide();
-    // $("#show-albums").hide();
+    $(".artist-wrapper").hide();
   });
   $("#artist-nav").on("click", function() {
     $(".add-artist").hide();
     if (!currentDisplayArtistId) {
-      $(".artist-section").show();
-      $(".artist-details").hide();
+      $(".artists-list").show();
+      $(".artist-wrapper").hide();
       return;
     }
-    $(".artist-section").hide();
-    $(".artist-details").show();
-    // $(".add-artist").show();
+    $(".artists-list").hide();
+    $(".artist-wrapper").show();
     showArtist(currentDisplayArtistId);
     showAlbum(currentDisplayArtistId);
-    // $("#show-albums").hide();
+  });
+  $("#artist-album-nav").on("click", function() {
+    $(".add-artist").hide();
+    if (!currentDisplayArtistId) {
+      $(".artists-list").show();
+      $(".artist-detail").hide();
+      return;
+    }
+    // this section needs to be built out to list all the artist album details
+    $(".artists-list").hide();
+    $(".show-album-details").show();
+    showAlbumDetails(this.id);
+    showArtist(currentDisplayArtistId);
+    showAlbum(currentDisplayArtistId);
   });
   $("ul#artists").on("click", "li", function() {
-    $(".artist-section").hide();
-    $(".artist-details").show();
+    $(".artists-list").hide();
+    $(".artist-wrapper").show();
     $("#show-albums").show();
     showArtist(this.id);
     showAlbum(this.id);
   });
   $("#buttons").on("click", ".deleteButton", function() {
-    // $("#show-artist").hide();
-    // $("#show-albums").hide();
-    // $("#show-add-albums").hide();
     newDb.deleteArtist(this.id);
+    $(".artist-wrapper").hide();
+    $(".artists-list").show();
     displayArtistList();
+    currentDisplayArtistId = "";
   });
   $("#buttons").on("click", ".showAlbums", function() {
-    // $("#show-albums").toggle();
+    $("#show-albums").toggle();
     showAlbum(this.id);
   });
   $("#buttons").on("click", ".addAlbums", function() {
-    // $("#show-add-albums").toggle();
+    $("#show-add-albums").show();
   });
   $("ul#show-albums").on("click", "li", function() {
     showAlbumDetails(this.id);
-    // $("#show-album-details").show();
+    $("#show-album-details").show();
   });
   $("#albumButtons").on("click", ".showAlbumDetail", function() {
-    // $("#show-album-details").hide();
+    $("#show-album-details").hide();
   });
   $("#albumButtons").on("click", ".deleteAlbumButton", function() {
-    // $("#show-album-details").hide();
-    // $("#show-albums").hide();
+    $("#show-album-details").hide();
     newDb.deleteAlbum(this.id);
+    showAlbum(currentDisplayArtistId);
   });
 }
 
