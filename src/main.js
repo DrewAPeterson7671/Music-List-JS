@@ -51,22 +51,24 @@ function attachArtistListeners() {
     $(".artists-list").hide();
     $(".add-artist").hide();
     $("#show-artist").hide();
-    $(".artist-wrapper").hide();
+    $(".artist-detail").hide();
+    $("#show-album-details").hide();
   });
   $("#artists-nav").on("click", function() {
     $(".artists-list").show();
     $(".add-artist").show();
-    $(".artist-wrapper").hide();
+    $(".artist-detail").hide();
+    $("#show-album-details").hide();
   });
   $("#artist-nav").on("click", function() {
     $(".add-artist").hide();
     if (!currentDisplayArtistId) {
       $(".artists-list").show();
-      $(".artist-wrapper").hide();
       return;
     }
     $(".artists-list").hide();
-    $(".artist-wrapper").show();
+    $(".artist-detail").show();
+    currentAlbumDisplay? $("#show-album-details").show() : $("#show-album-details").hide();
     showArtist(currentDisplayArtistId);
     showAlbum(currentDisplayArtistId);
   });
@@ -75,18 +77,20 @@ function attachArtistListeners() {
     if (!currentDisplayArtistId) {
       $(".artists-list").show();
       $(".artist-detail").hide();
+      $("#show-album-details").hide();
       return;
     }
     // this section needs to be built out to list all the artist album details
     $(".artists-list").hide();
-    $(".show-album-details").show();
+    $(".artist-detail").hide();
+    $("#show-album-details").hide();
     showAlbumDetails(this.id);
     showArtist(currentDisplayArtistId);
     showAlbum(currentDisplayArtistId);
   });
   $("ul#artists").on("click", "li", function() {
     $(".artists-list").hide();
-    $(".artist-wrapper").show();
+    $(".artist-detail").show();
     $("#show-albums").show();
     showArtist(this.id);
     showAlbum(this.id);
@@ -107,24 +111,30 @@ function attachArtistListeners() {
   });
   $("ul#show-albums").on("click", "li", function() {
     showAlbumDetails(this.id);
+    currentAlbumDisplay = true;
     $("#show-album-details").show();
   });
   $("#albumButtons").on("click", ".showAlbumDetail", function() {
     $("#show-album-details").hide();
+    currentAlbumDisplay = false;
   });
   $("#albumButtons").on("click", ".deleteAlbumButton", function() {
     $("#show-album-details").hide();
     newDb.deleteAlbum(this.id);
     showAlbum(currentDisplayArtistId);
+    currentAlbumDisplay = false;
   });
 }
 
 
 export let newDb = new MusicDB();
 let currentDisplayArtistId = "";
+let currentAlbumDisplay = false;
 
 $(document).ready(function() {
   $("body").show();
+  $("body").show();
+
   displayArtistList();
   attachArtistListeners();
   $("form#new-artist").submit(function(event) {
