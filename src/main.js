@@ -48,6 +48,7 @@ function showAlbumDetails(albumId) {
 
 function attachArtistListeners() {
   $("#home-nav").on("click", function() {
+    $(".alphabet-index").hide();
     $(".artists-list").hide();
     $(".add-artist").hide();
     $("#show-artist").hide();
@@ -55,6 +56,7 @@ function attachArtistListeners() {
     $("#show-album-details").hide();
   });
   $("#artists-nav").on("click", function() {
+    $(".alphabet-index").show();
     $(".artists-list").show();
     $(".add-artist").show();
     $(".artist-detail").hide();
@@ -62,6 +64,7 @@ function attachArtistListeners() {
   });
   $("#artist-nav").on("click", function() {
     $(".add-artist").hide();
+    $(".alphabet-index").hide();
     if (!currentDisplayArtistId) {
       $(".artists-list").show();
       return;
@@ -80,7 +83,7 @@ function attachArtistListeners() {
       $("#show-album-details").hide();
       return;
     }
-    // this section needs to be built out to list all the artist album details
+    $(".alphabet-index").hide();
     $(".artists-list").hide();
     $(".artist-detail").hide();
     $("#show-album-details").hide();
@@ -88,9 +91,9 @@ function attachArtistListeners() {
     showArtist(currentDisplayArtistId);
     showAlbum(currentDisplayArtistId);
   });
-  // Doesn't display properly after delete and reselection
   $("ul#artists").on("click", "li", function() {
     $(".artists-list").hide();
+    $(".alphabet-index").hide();
     $(".artist-detail").show();
     $("#show-albums").show();
     showArtist(this.id);
@@ -136,8 +139,6 @@ let currentAlbumDisplay = false;
 
 $(document).ready(function() {
   $("body").show();
-  $("body").show();
-
   displayArtistList();
   attachArtistListeners();
   $("form#new-artist").submit(function(event) {
@@ -216,9 +217,5 @@ newDb.addAlbum(album6);
 newDb.addAlbum(album7);
 newDb.addAlbum(album8);
 
-// To Do
-// Move to webpack
-// develop test suite
-// list all album properties
-// Sort albums by properties
+
 

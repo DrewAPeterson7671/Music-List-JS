@@ -4,7 +4,17 @@ body {
 ul {
   list-style-type: none;
 }
+.alphabet-index{
+  display: none;
+  flex-basis: 20%;
+
+}
 .artists-list {
+  display: none;
+  flex-basis: auto;
+  flex-basis: 60%;
+}
+.add-artist {
   display: none;
 }
 .artist-detail {
@@ -19,5 +29,15 @@ ul {
 #show-album-details {
   display: none;
 }
-
-
+.grid-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+@media all and (min-width: 800px) {
+  .alphabet-index { order: 1; } 
+  .artists-list { order: 2; }
+  .add-artist { order: 3; }
+}
