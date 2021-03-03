@@ -92,6 +92,7 @@ function attachArtistListeners() {
     showAlbum(currentDisplayArtistId);
   });
   $("ul#artists").on("click", "li", function() {
+    $(".add-artist").hide();
     $(".artists-list").hide();
     $(".alphabet-index").hide();
     $(".artist-detail").show();

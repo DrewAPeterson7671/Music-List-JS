@@ -6,38 +6,42 @@ ul {
 }
 .alphabet-index{
   display: none;
-  flex-basis: 20%;
+  flex-grow: 1;
 
 }
 .artists-list {
   display: none;
-  flex-basis: auto;
-  flex-basis: 60%;
+  flex-grow: 2;
+  margin-left: 10px;
 }
 .add-artist {
   display: none;
+  flex-grow: 1;
 }
 .artist-detail {
   display: none;
+  flex-grow: 1;
 }
 #show-artist {
   display: none;
+  flex-grow: 1;
 }
 #show-add-albums {
   display: none;
+  flex-grow: 1;
+  align-self: center;
 }
 #show-album-details {
   display: none;
+  flex-grow: 2;
+  align-self: center;
 }
-.grid-container {
+.grid-container, .artist-wrapper {
   display: flex;
-  flex-direction: row;
   align-items: flex-start;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
+  flex-flow: row wrap;
 }
-@media all and (min-width: 800px) {
-  .alphabet-index { order: 1; } 
-  .artists-list { order: 2; }
-  .add-artist { order: 3; }
-}
+
+/* .flexbox-item-1 {
+
+} */
