@@ -57,7 +57,7 @@ function showAlbumDetails(albumId) {
 }
 
 function attachArtistListeners() {
-  $("#home-nav").on("click", function() {
+  $("#home-nav").on("click", () => {
     $(".alphabet-index").hide();
     $(".artists-list").hide();
     $(".add-artist").hide();
@@ -66,7 +66,7 @@ function attachArtistListeners() {
     $("#show-album-details").hide();
     $("#show-add-albums").hide();
   });
-  $("#artists-nav").on("click", function() {
+  $("#artists-nav").on("click", () => {
     $(".alphabet-index").show();
     $(".artists-list").show();
     $(".add-artist").show();
@@ -74,7 +74,7 @@ function attachArtistListeners() {
     $("#show-album-details").hide();
     $("#show-add-albums").hide();
   });
-  $("#artist-nav").on("click", function() {
+  $("#artist-nav").on("click", () => {
     $(".add-artist").hide();
     $(".alphabet-index").hide();
     if (!currentDisplayArtistId) {
@@ -103,9 +103,11 @@ function attachArtistListeners() {
     showArtist(currentDisplayArtistId);
     showAlbum(currentDisplayArtistId);
   });
-  $("ul.alphabet-index").on("click", "li", ()=> {
-    //Working on alphabet index - this is where it should be showAphaSort(this.id);
-    
+  $("ul#alphabet-index").on("click", "li", function(e) {
+    alphabetSortCharacter = e.target.id;
+    console.log(e.target.id);
+
+    // console.log($(this));
   });
   $("ul#artists").on("click", "li", function() {
     $(".add-artist").hide();
@@ -129,7 +131,7 @@ function attachArtistListeners() {
     $("#show-albums").toggle();
     showAlbum(this.id);
   });
-  $("#buttons").on("click", ".addAlbums", function() {
+  $("#buttons").on("click", ".addAlbums", () => {
     $("#show-add-albums").toggle();
   });
   $("ul#show-albums").on("click", "li", function() {
@@ -137,7 +139,7 @@ function attachArtistListeners() {
     currentAlbumDisplay = true;
     $("#show-album-details").show();
   });
-  $("#albumButtons").on("click", ".showAlbumDetail", function() {
+  $("#albumButtons").on("click", ".showAlbumDetail", () => {
     $("#show-album-details").hide();
     currentAlbumDisplay = false;
   });
@@ -153,6 +155,7 @@ function attachArtistListeners() {
 export let newDb = new MusicDB();
 let currentDisplayArtistId = "";
 let currentAlbumDisplay = false;
+let alphabetSortCharacter = "";
 
 
 $(document).ready(function() {

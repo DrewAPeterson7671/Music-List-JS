@@ -75,6 +75,15 @@ export class MusicDB {
     return this.artists;
   }
 
+  aphabetIndexSortByChar(indexCharacter) {
+    let myAlphaReg = /^The |^A ^${indexCharacter} /i;
+    // this is close /(?!^the |^a )([^${indexCharacter}])/i
+    //  /^(r)(?!^the |^a )/i
+    //  /(?!^the |^a )\b${indexCharacter}?/i
+
+    return this.artists;
+  }
+
   // Refactor left off here  
 
   findAlbumList(artistId) {
