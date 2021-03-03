@@ -2,6 +2,16 @@ import { MusicDB, Artist, Album } from './music-artist.js';
 import $ from 'jquery';
 import './css/styles.css';
 
+function showAlphabetIndex() {
+  let alphabetIndex = $("ul#alphabet-index");
+  let htmlForAlphabetIndex = "";
+  const alphabetIndexArray = ["#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+  alphabetIndexArray.forEach( (a) => {
+    htmlForAlphabetIndex += "<li id=" + a + ">" + a + "</li>";
+  });
+  alphabetIndex.html(htmlForAlphabetIndex);
+}
+
 function showArtist(artistId) {
   currentDisplayArtistId = artistId;
   const artistElement = newDb.findArtistIndex(artistId);
@@ -54,6 +64,7 @@ function attachArtistListeners() {
     $("#show-artist").hide();
     $(".artist-detail").hide();
     $("#show-album-details").hide();
+    $("#show-add-albums").hide();
   });
   $("#artists-nav").on("click", function() {
     $(".alphabet-index").show();
@@ -61,6 +72,7 @@ function attachArtistListeners() {
     $(".add-artist").show();
     $(".artist-detail").hide();
     $("#show-album-details").hide();
+    $("#show-add-albums").hide();
   });
   $("#artist-nav").on("click", function() {
     $(".add-artist").hide();
@@ -90,6 +102,10 @@ function attachArtistListeners() {
     showAlbumDetails(this.id);
     showArtist(currentDisplayArtistId);
     showAlbum(currentDisplayArtistId);
+  });
+  $("ul.alphabet-index").on("click", "li", ()=> {
+    //Working on alphabet index - this is where it should be showAphaSort(this.id);
+    
   });
   $("ul#artists").on("click", "li", function() {
     $(".add-artist").hide();
@@ -138,8 +154,10 @@ export let newDb = new MusicDB();
 let currentDisplayArtistId = "";
 let currentAlbumDisplay = false;
 
+
 $(document).ready(function() {
   $("body").show();
+  showAlphabetIndex();
   displayArtistList();
   attachArtistListeners();
   $("form#new-artist").submit(function(event) {
