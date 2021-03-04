@@ -38,7 +38,6 @@ let alphabetCharacterFilter = (alphabetSortCharacter) => {
   let artistList = $("ul#artists");
   let htmlForArtists = "";
   let alphaLetterOnly = newDb.alphabetIndexSortByChar(alphabetSortCharacter);
-  console.log(alphaLetterOnly + " from alphaLetterOnly");
   alphaLetterOnly.forEach(function(artist) {
     htmlForArtists += "<li id=" + artist.artistId + ">" + artist.artist + "</li>";
   });
@@ -220,6 +219,12 @@ let artist11 = new Artist("A Perfect Circle", "Alternative");
 let artist12 = new Artist("Rage Against The Machine", "Alternative");
 let artist13 = new Artist("Cage The Elephant", "Alternative");
 let artist14 = new Artist("A Silent Film", "Alternative");
+let artist15 = new Artist("!!!", "Alternative");
+let artist16 = new Artist("3 Dog Night", "Classic Rock");
+let artist17 = new Artist("The The", "Alternative");
+let artist20 = new Artist("2 Brothers On The 4th Floor", "House");
+let artist21 = new Artist("The 4 Skins", "Punk");
+
 newDb.addArtist(artist1);
 newDb.addArtist(artist2);
 newDb.addArtist(artist3);
@@ -234,6 +239,12 @@ newDb.addArtist(artist11);
 newDb.addArtist(artist12);
 newDb.addArtist(artist13);
 newDb.addArtist(artist14);
+newDb.addArtist(artist15);
+newDb.addArtist(artist16);
+newDb.addArtist(artist17);
+newDb.addArtist(artist20);
+newDb.addArtist(artist21);
+
 let album1 = new Album("REM", "Out of Time", 1991, "Alternative", "Studio");
 let album2 = new Album("REM", "Eponymous", 1988, "Alternative", "Compilation");
 let album3 = new Album("The Cure", "Seventeen Seconds", 1980, "Alternative", "Studio");
