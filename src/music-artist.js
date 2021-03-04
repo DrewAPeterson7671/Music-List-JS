@@ -78,7 +78,7 @@ export class MusicDB {
   alphabetIndexSortByChar(indexCharacter) {
     if (indexCharacter === "#") {
       let artistsWithoutAThe = this.artists.filter(artist => {
-        let regexTheA = new RegExp('^[a-zA-Z]?');
+        let regexTheA = new RegExp('^[^a-zA-Z]');
         return regexTheA.test(artist.artist.toLowerCase().replace(/^((a|the)\s)/, ''));
       });
       return artistsWithoutAThe;
