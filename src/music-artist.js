@@ -76,11 +76,19 @@ export class MusicDB {
   }
 
   alphabetIndexSortByChar(indexCharacter) {
-    let artistsWithoutAThe = this.artists.filter(artist => {
-      let regexTheA = new RegExp('^' + indexCharacter.toLowerCase());
-      return regexTheA.test(artist.artist.toLowerCase().replace(/^((a|the)\s)/, ''));
-    });
-    return artistsWithoutAThe;
+    if (indexCharacter === "#") {
+      let artistsWithoutAThe = this.artists.filter(artist => {
+        let regexTheA = new RegExp('^[a-zA-Z]?');
+        return regexTheA.test(artist.artist.toLowerCase().replace(/^((a|the)\s)/, ''));
+      });
+      return artistsWithoutAThe;
+    } else {
+      let artistsWithoutAThe = this.artists.filter(artist => {
+        let regexTheA = new RegExp('^' + indexCharacter.toLowerCase());
+        return regexTheA.test(artist.artist.toLowerCase().replace(/^((a|the)\s)/, ''));
+      });
+      return artistsWithoutAThe;
+    }
   }
 
 
