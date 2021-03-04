@@ -75,16 +75,14 @@ export class MusicDB {
     return this.artists;
   }
 
-  aphabetIndexSortByChar(indexCharacter) {
-    let myAlphaReg = /^The |^A ^${indexCharacter} /i;
-    // this is close /(?!^the |^a )([^${indexCharacter}])/i
-    //  /^(r)(?!^the |^a )/i
-    //  /(?!^the |^a )\b${indexCharacter}?/i
-
-    return this.artists;
+  alphabetIndexSortByChar(indexCharacter) {
+    let artistsWithoutAThe = this.artists.filter(artist => {
+      let regexTheA = new RegExp('^' + indexCharacter.toLowerCase());
+      return regexTheA.test(artist.artist.toLowerCase().replace(/^((a|the)\s)/, ''));
+    });
+    return artistsWithoutAThe;
   }
 
-  // Refactor left off here  
 
   findAlbumList(artistId) {
     if (!artistId) return false;
