@@ -3,6 +3,8 @@ body {
 }
 ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 .alphabet-index{
   display: none;
@@ -12,7 +14,7 @@ ul {
 .artists-list {
   display: none;
   flex-grow: 2;
-  margin-left: 10px;
+  /* margin-left: 5px; */
 }
 .add-artist {
   display: none;
@@ -20,26 +22,24 @@ ul {
 }
 .artist-detail {
   display: none;
-  flex-grow: 1;
 }
 #show-artist {
   display: none;
-  flex-grow: 1;
 }
 #show-add-albums {
   display: none;
-  flex-grow: 1;
-  align-self: center;
+  /* margin-left: 20px; */
 }
 #show-album-details {
   display: none;
-  flex-grow: 2;
-  align-self: center;
+  /* margin-left: 20px; */
 }
 .grid-container, .artist-wrapper {
   display: flex;
-  align-items: flex-start;
+  /* align-items: space-around; */
   flex-flow: row wrap;
+  justify-content: space-between;
+  margin: 15px;
 }
 
 /* .flexbox-item-1 {

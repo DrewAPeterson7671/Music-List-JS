@@ -135,6 +135,7 @@ function attachArtistListeners() {
     $("#show-albums").hide();
     $("#show-album-details").hide();
     $(".artists-list").show();
+    $("#show-add-albums").hide();
     displayArtistList();
     currentDisplayArtistId = "";
   });
@@ -157,7 +158,7 @@ function attachArtistListeners() {
   $("#albumButtons").on("click", ".deleteAlbumButton", function() {
     $("#show-album-details").hide();
     newDb.deleteAlbum(this.id);
-    // showAlbum(currentDisplayArtistId);
+    showAlbum(currentDisplayArtistId);
     currentAlbumDisplay = false;
   });
 }
