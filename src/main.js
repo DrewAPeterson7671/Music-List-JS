@@ -34,6 +34,17 @@ function displayArtistList() {
   artistList.html(htmlForArtists);
 }
 
+let alphabetCharacterFilter = (alphabetSortCharacter) => {
+  let artistList = $("ul#artists");
+  let htmlForArtists = "";
+  let alphaLetterOnly = newDb.alphabetIndexSortByChar(alphabetSortCharacter);
+  console.log(alphaLetterOnly + " from alphaLetterOnly");
+  alphaLetterOnly.forEach(function(artist) {
+    htmlForArtists += "<li id=" + artist.artistId + ">" + artist.artist + "</li>";
+  });
+  artistList.html(htmlForArtists);
+};
+
 function showAlbum(artistId) {
   let albumDisplay = $("ul#show-albums");
   let albumListDisplays = newDb.findAlbumList(artistId);
@@ -73,6 +84,7 @@ function attachArtistListeners() {
     $(".artist-detail").hide();
     $("#show-album-details").hide();
     $("#show-add-albums").hide();
+    displayArtistList();
   });
   $("#artist-nav").on("click", () => {
     $(".add-artist").hide();
@@ -104,10 +116,10 @@ function attachArtistListeners() {
     showAlbum(currentDisplayArtistId);
   });
   $("ul#alphabet-index").on("click", "li", function(e) {
-    alphabetSortCharacter = e.target.id;
-    console.log(e.target.id);
-
-    // console.log($(this));
+    let alphabetSortCharacter = e.target.id;
+    alphabetCharacterFilter(alphabetSortCharacter);
+    $(".artists-list").show();
+    // Need to refactor this for # choice
   });
   $("ul#artists").on("click", "li", function() {
     $(".add-artist").hide();
@@ -155,7 +167,7 @@ function attachArtistListeners() {
 export let newDb = new MusicDB();
 let currentDisplayArtistId = "";
 let currentAlbumDisplay = false;
-let alphabetSortCharacter = "";
+
 
 
 $(document).ready(function() {
@@ -193,7 +205,7 @@ $(document).ready(function() {
   });    
 });
 
-
+// For testing until the database is added
 let artist1 = new Artist("The Damned", "Punk");
 let artist2 = new Artist("Tool", "NuMetal");
 let artist3 = new Artist("REM", "Alternative");
