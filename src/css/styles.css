@@ -20,6 +20,9 @@ ul {
   display: none;
   flex-grow: 1;
 }
+.edit-artist {
+  display: none;
+}
 .artist-detail {
   display: none;
 }
@@ -32,13 +35,12 @@ ul {
 }
 #show-album-details {
   display: none;
-  /* margin-left: 20px; */
 }
 .grid-container, .artist-wrapper {
   display: flex;
-  /* align-items: space-around; */
-  flex-flow: row wrap;
-  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  align-content: space-between;
   margin: 15px;
 }
 
