@@ -19,6 +19,7 @@ function showArtist(artistId) {
   $(".show-artist-genre").html(newDb.artists[artistElement].artistGenre);
   let buttons = $("#buttons");
   buttons.empty();
+  buttons.append("<button class='edit-artist' id=" + + newDb.artists[artistElement].artistId + ">Edit Artist</button>");
   buttons.append("<button class='deleteButton' id=" + + newDb.artists[artistElement].artistId + ">Delete Artist</button>");
   buttons.append("<button class='showAlbums' id=" + + newDb.artists[artistElement].artistId + ">Hide Albums</button>");
   buttons.append("<button class='addAlbums' id=" + + newDb.artists[artistElement].artistId + ">Add Album</button>");
@@ -71,6 +72,7 @@ function attachArtistListeners() {
     $(".alphabet-index").hide();
     $(".artists-list").hide();
     $(".add-artist").hide();
+    $(".edit-artist").hide();
     $("#show-artist").hide();
     $(".artist-detail").hide();
     $("#show-album-details").hide();
@@ -78,6 +80,7 @@ function attachArtistListeners() {
   });
   $("#artists-nav").on("click", () => {
     $(".alphabet-index").show();
+    $(".edit-artist").hide();
     $(".artists-list").show();
     $(".add-artist").show();
     $(".artist-detail").hide();
@@ -87,6 +90,7 @@ function attachArtistListeners() {
   });
   $("#artist-nav").on("click", () => {
     $(".add-artist").hide();
+    $(".edit-artist").hide();
     $(".alphabet-index").hide();
     if (!currentDisplayArtistId) {
       $(".artists-list").show();
@@ -109,6 +113,7 @@ function attachArtistListeners() {
     $(".alphabet-index").hide();
     $(".artists-list").hide();
     $(".artist-detail").hide();
+    $(".edit-artist").hide();
     $("#show-album-details").hide();
     showAlbumDetails(this.id);
     showArtist(currentDisplayArtistId);
@@ -123,15 +128,20 @@ function attachArtistListeners() {
   $("ul#artists").on("click", "li", function() {
     $(".add-artist").hide();
     $(".artists-list").hide();
+    $(".edit-artist").hide();
     $(".alphabet-index").hide();
     $(".artist-detail").show();
     $("#show-albums").show();
     showArtist(this.id);
     showAlbum(this.id);
   });
+  $("#buttons").on("click", ".edit-artist", () => {
+    $(".edit-artist").show();
+  });
   $("#buttons").on("click", ".deleteButton", function() {
     newDb.deleteArtist(this.id);
     $(".artist-detail").hide();
+    $(".edit-artist").hide();
     $("#show-albums").hide();
     $("#show-album-details").hide();
     $(".artists-list").show();
@@ -183,6 +193,20 @@ $(document).ready(function() {
     $("input#new-artist-genre").val("");
     let newArtist = new Artist(inputArtistName, inputArtistGenre);
     newDb.addArtist(newArtist);
+    displayArtistList();
+  });
+
+  $("form#edit-artist").submit(function(event) {
+    event.preventDefault();
+    let artistId = parseInt(currentDisplayArtistId);
+    let prePopulateValues = newDb.findArtistIndex(artistId);
+    $("input#edit-artist-name").val(prePopulateValues.name);
+    $("input#edit-artist-genre").val(prePopulateValues.genre);
+    let editArtistName = $("input#edit-artist-name").val();
+    let editArtistGenre = $("input#new-artist-genre").val();
+    $("input#edit-artist-name").val("");
+    $("input#edit-artist-genre").val("");
+    newDb.editArtist(editArtistName, editArtistGenre);
     displayArtistList();
   });
 

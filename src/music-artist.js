@@ -112,6 +112,12 @@ export class MusicDB {
     return true;
   }
 
+  editArtist(artistId, editArtistName, editArtistGenre) {
+    let artistToEdit = this.findArtistId(artistId);
+    artistToEdit.name = editArtistName;
+    artistToEdit.genre = editArtistGenre;
+  }
+
   deleteArtistAlbums(artistId) {
     for (let i = 0; i < this.albums.length; i++) {
       if (this.albums[i] != undefined && this.albums[i].artistId == artistId) {
