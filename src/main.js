@@ -19,7 +19,7 @@ function showArtist(artistId) {
   $(".show-artist-genre").html(newDb.artists[artistElement].artistGenre);
   let buttons = $("#buttons");
   buttons.empty();
-  buttons.append("<button class='edit-artist' id=" + + newDb.artists[artistElement].artistId + ">Edit Artist</button>");
+  buttons.append("<button class='editArtist' id=" + + newDb.artists[artistElement].artistId + ">Edit Artist</button>");
   buttons.append("<button class='deleteButton' id=" + + newDb.artists[artistElement].artistId + ">Delete Artist</button>");
   buttons.append("<button class='showAlbums' id=" + + newDb.artists[artistElement].artistId + ">Hide Albums</button>");
   buttons.append("<button class='addAlbums' id=" + + newDb.artists[artistElement].artistId + ">Add Album</button>");
@@ -135,8 +135,15 @@ function attachArtistListeners() {
     showArtist(this.id);
     showAlbum(this.id);
   });
-  $("#buttons").on("click", ".edit-artist", () => {
+  // Edit Artist Put variables
+  $("#buttons").on("click", ".editArtist", () => {
     $(".edit-artist").show();
+    let editArtistId = parseInt(currentDisplayArtistId);
+    let artistEditFind = newDb.findArtistIndex(editArtistId);
+    let artistToEdit = newDb.artists[artistEditFind];
+    $("input#edit-artist-name").val(artistToEdit.artist);
+    $("input#edit-artist-genre").val(artistToEdit.artistGenre);
+    // console.log(currentDisplayArtistId);
   });
   $("#buttons").on("click", ".deleteButton", function() {
     newDb.deleteArtist(this.id);
@@ -198,15 +205,15 @@ $(document).ready(function() {
 
   $("form#edit-artist").submit(function(event) {
     event.preventDefault();
-    let artistId = parseInt(currentDisplayArtistId);
-    let prePopulateValues = newDb.findArtistIndex(artistId);
-    $("input#edit-artist-name").val(prePopulateValues.name);
-    $("input#edit-artist-genre").val(prePopulateValues.genre);
+    //I think the problem is here
+
+    //git this bit right first, its not displaying
+
     let editArtistName = $("input#edit-artist-name").val();
     let editArtistGenre = $("input#new-artist-genre").val();
+    newDb.editArtist(editArtistId, editArtistName, editArtistGenre);
     $("input#edit-artist-name").val("");
     $("input#edit-artist-genre").val("");
-    newDb.editArtist(editArtistName, editArtistGenre);
     displayArtistList();
   });
 
