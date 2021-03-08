@@ -63,6 +63,7 @@ function showAlbumDetails(albumId) {
   $(".show-album-type").html(albumDetail.albumType);
   let albumButtons = $("#albumButtons");
   albumButtons.empty();
+  albumButtons.append("<button class='editAlbumButton' id=" + + albumDetail.albumId + ">Edit Album</button>");
   albumButtons.append("<button class='deleteAlbumButton' id=" + + albumDetail.albumId + ">Delete Album</button>");
   albumButtons.append("<button class='showAlbumDetail' id=" + + albumDetail.albumId + ">Hide Album Details</button>");
 }
@@ -134,7 +135,6 @@ function attachArtistListeners() {
     showArtist(this.id);
     showAlbum(this.id);
   });
-  // Edit Artist Put variables
   $("#buttons").on("click", ".editArtist", () => {
     $(".edit-artist").toggle();
     let editArtistId = parseInt(currentDisplayArtistId);
@@ -142,7 +142,6 @@ function attachArtistListeners() {
     let artistToEdit = newDb.artists[artistEditFind];
     $("input#edit-artist-name").val(artistToEdit.artist);
     $("input#edit-artist-genre").val(artistToEdit.artistGenre);
-    // console.log(currentDisplayArtistId);
   });
   $("#buttons").on("click", ".deleteButton", function() {
     newDb.deleteArtist(this.id);
@@ -170,6 +169,10 @@ function attachArtistListeners() {
   $("#albumButtons").on("click", ".showAlbumDetail", () => {
     $("#show-album-details").hide();
     currentAlbumDisplay = false;
+  });  $("#albumButtons").on("click", ".editAlbumButton", function() {
+    $("#show-album-details").hide();
+    newDb.editAlbum(this.id);
+    showAlbum(currentDisplayArtistId);
   });
   $("#albumButtons").on("click", ".deleteAlbumButton", function() {
     $("#show-album-details").hide();
@@ -204,10 +207,6 @@ $(document).ready(function() {
 
   $("form#edit-artist").submit(function(event) {
     event.preventDefault();
-    //I think the problem is here
-
-    //git this bit right first, its not displaying
-
     let editArtistName = $("input#edit-artist-name").val();
     let editArtistGenre = $("input#edit-artist-genre").val();
     newDb.editArtist(currentDisplayArtistId,editArtistName, editArtistGenre);
@@ -232,7 +231,25 @@ $(document).ready(function() {
     let newAlbum = new Album(albumArtist, inputAlbumName, inputAlbumYear, inputAlbumGenre, inputAlbumType);
     newDb.addAlbum(newAlbum);
     showAlbum(currentDisplayArtistId);
-  });    
+  });
+  $("form#edit-album").submit(function(event) {
+    event.preventDefault();
+    let artistId = parseInt(currentDisplayArtistId);
+    let indexElement = newDb.findArtistIndex(artistId);
+    let albumArtist = newDb.artists[indexElement].artist;
+    let inputAlbumName = $("input#edit-album-name").val();
+    let inputAlbumYear = $("input#edit-album-year").val();
+    let inputAlbumGenre = $("input#edit-album-genre").val();
+    let inputAlbumType = $("input#edit-album-type").val();
+    $("input#edit-album-name").val("");
+    $("input#edit-album-year").val("");
+    $("input#edit-album-genre").val("");
+    $("input#edit-album-type").val("");    
+    let newAlbum = new Album(albumArtist, inputAlbumName, inputAlbumYear, inputAlbumGenre, inputAlbumType);
+    newDb.addAlbum(newAlbum);
+    showAlbum(currentDisplayArtistId);
+  });  
+  
 });
 
 // For testing until the database is added
