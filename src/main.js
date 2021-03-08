@@ -123,7 +123,6 @@ function attachArtistListeners() {
     let alphabetSortCharacter = e.target.id;
     alphabetCharacterFilter(alphabetSortCharacter);
     $(".artists-list").show();
-    // Need to refactor this for # choice
   });
   $("ul#artists").on("click", "li", function() {
     $(".add-artist").hide();
@@ -137,7 +136,7 @@ function attachArtistListeners() {
   });
   // Edit Artist Put variables
   $("#buttons").on("click", ".editArtist", () => {
-    $(".edit-artist").show();
+    $(".edit-artist").toggle();
     let editArtistId = parseInt(currentDisplayArtistId);
     let artistEditFind = newDb.findArtistIndex(editArtistId);
     let artistToEdit = newDb.artists[artistEditFind];
@@ -210,11 +209,11 @@ $(document).ready(function() {
     //git this bit right first, its not displaying
 
     let editArtistName = $("input#edit-artist-name").val();
-    let editArtistGenre = $("input#new-artist-genre").val();
-    newDb.editArtist(editArtistId, editArtistName, editArtistGenre);
+    let editArtistGenre = $("input#edit-artist-genre").val();
+    newDb.editArtist(currentDisplayArtistId,editArtistName, editArtistGenre);
     $("input#edit-artist-name").val("");
     $("input#edit-artist-genre").val("");
-    displayArtistList();
+    showArtist(currentDisplayArtistId);
   });
 
   $("form#new-album").submit(function(event) {
